@@ -121,7 +121,7 @@ public class Contact{
 	public boolean removeField(String nameOfFieldToDelete){
 		boolean wasSuccessful = false;
 		
-		if(getFieldIndexByName(nameOfFieldToDelete) == -1 || getFieldIndexByName(nameOfFieldToDelete) >= fieldContents.size()){
+		if(getFieldIndexByName(nameOfFieldToDelete) != -1 || getFieldIndexByName(nameOfFieldToDelete) >= fieldContents.size()){
 			fieldContents.remove(getFieldIndexByName(nameOfFieldToDelete));
 			fieldNames.remove(getFieldIndexByName(nameOfFieldToDelete));
 			wasSuccessful = updateContactFile();
@@ -145,7 +145,7 @@ public class Contact{
 	public boolean modifyField(String nameOfFieldToModify, String newFieldContents){
 		boolean wasSuccessful = false;
 		
-		if(getFieldIndexByName(nameOfFieldToModify) == -1 || getFieldIndexByName(nameOfFieldToModify) >= fieldContents.size()){
+		if(getFieldIndexByName(nameOfFieldToModify) != -1 || getFieldIndexByName(nameOfFieldToModify) >= fieldContents.size()){
 			fieldContents.set(getFieldIndexByName(nameOfFieldToModify), newFieldContents);
 			wasSuccessful = updateContactFile();
 		}
