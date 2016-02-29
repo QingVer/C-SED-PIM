@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,9 +26,31 @@ public class Contact{
 	*/
 	public Contact(File contactFile){
 		this.contactFile = contactFile;
+		
+		Scanner contactReader = null;
+		
+		try {
+			contactReader = new Scanner(this.contactFile);
+			
+			while(contactReader.hasNext() == true){
+				String field = contactReader.nextLine();
+				if (field.contains(":") && field.length() >= 3){
+					String[] fieldParts = field.split(":", 2);
+					fieldNames.add(fieldParts[0]);
+					fieldContents.add(fieldParts[1]);
+				}
+			}
+			
+		}
+		catch (FileNotFoundException ex){
+			System.err.println("Could not read from the specified note file because the file could not be found.");
+		}
+		finally {
+			contactReader.close();
+		}
 	}
 	
-	public Contact(ArrayList<String> intialFields){
+	public Contact(String[] intialFields){
 		//TODO Implement Constructor for creating a brand new contact given initial fields in an array of strings.
 	}
 	

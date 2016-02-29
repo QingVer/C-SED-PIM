@@ -11,7 +11,7 @@ public class ContactMenuCLI {
 		//TODO Implement root menu for contacts.
 	}
 	
-	public void listNotes(){
+	public void listContacts(){
 		//TODO list all contacts' first field.
 	}
 }

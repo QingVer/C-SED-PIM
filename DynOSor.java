@@ -27,6 +27,10 @@ public class DynOSor{
 		 */
 	}
 	
+	/**
+	 * Shows a set of menu options to the user and continually monitors
+	 * their command line input. Once this method exits, the program closes.
+	 */
 	public void showMainMenu(){
 		Scanner userInputScanner = new Scanner(System.in);
 		
