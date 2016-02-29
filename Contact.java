@@ -9,13 +9,14 @@ import java.io.FileNotFoundException;
  * This class contains methods to create, modify and delete contacts and
  * their fields.
  * 
- * @version Sprint 1 V1.0
+ * @version Sprint 1, V1.0
  */
 public class Contact{
 	
 	private File contactFile;
 	private ArrayList<String> fieldNames;
 	private ArrayList<String> fieldContents;
+	private static String contactsDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
 	
 	/**
 	* Constructor which takes a text file and reads each line as a field of the
@@ -24,7 +25,33 @@ public class Contact{
 	*/
 	public Contact(File contactFile){
 		this.contactFile = contactFile;
+	}
+	
+	public Contact(ArrayList<String> intialFields){
+		//TODO Implement Constructor for creating a brand new contact given initial fields in an array of strings.
+	}
+	
+	/**
+	 * Returns an ArrayList of strings detailing the contact's fields.
+	 * For each valid field, i.e. a field name for which there exists
+	 * field content, a string will be added to the ArrayList.
+	 * 
+	 * @return an ArrayList of strings of all of the contact's fields.
+	 */
+	public ArrayList<String> viewContact(){
+		ArrayList<String> fields = new ArrayList<String>();
 		
+		
+		for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++){
+			if (fieldNumber < fieldContents.size()){
+				fields.add(fieldNames.get(fieldNumber) + " : " + fieldContents.get(fieldNumber));
+			}
+			else{
+				break;
+			}
+		}
+		
+		return fields;
 	}
 	
 	/**
@@ -130,10 +157,11 @@ public class Contact{
 	}
 	
 	/**
-	 * Writes to the contact's file all fields, in the form fieldName:fieldContents,
+	 * Re-writes the contact's file with all of its fields in their current
+	 * state. Fields are written in the form fieldName:fieldContents,
 	 * with each field taking up its own line.
 	 * 
-	 * @return whether or not the operation was successful.
+	 * @return whether or not the file writing operation was successful.
 	 */
 	public boolean updateContactFile(){
 		boolean wasSuccessful = false;
