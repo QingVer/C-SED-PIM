@@ -50,8 +50,37 @@ public class Contact{
 		}
 	}
 	
-	public Contact(String[] intialFields){
-		//TODO Implement Constructor for creating a brand new contact given initial fields in an array of strings.
+	/**
+	 * Constructor which takes an ArrayList of field strings which it then decomposes into its
+	 * component parts (fieldName and fieldContents). A file is then created in which the new
+	 * contact's fields are stored.
+	 * As it creates a new contact, it creates a new contact file.
+	 *  
+	 * @param intialFields An ArrayList containing field strings of the form fieldName:fieldContent
+	 */
+	public Contact(ArrayList<String> initialFields){
+		//Gets all of the supplied initial fields.
+		String fieldName;
+		String fieldContent;
+		for (int i = 0; i < initialFields.size(); i++){
+			String[] field = initialFields.get(i).split(":", 2);
+			fieldName = field[0];
+			fieldContent = field[1];
+			
+			fieldNames.add(fieldName);
+			fieldContents.add(fieldContent);
+		}
+		
+		//Creates the new contact's file.
+		File newContactFile;
+		int j = 0;
+		do{
+			j++;
+			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Note" + j + ".txt");
+		}while(newContactFile.exists() == true);
+		
+		contactFile = newContactFile;
+		updateContactFile();
 	}
 	
 	/**
@@ -63,7 +92,6 @@ public class Contact{
 	 */
 	public ArrayList<String> viewContact(){
 		ArrayList<String> fields = new ArrayList<String>();
-		
 		
 		for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++){
 			if (fieldNumber < fieldContents.size()){
