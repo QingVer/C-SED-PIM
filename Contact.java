@@ -17,7 +17,7 @@ public class Contact{
 	private File contactFile;
 	private ArrayList<String> fieldNames;
 	private ArrayList<String> fieldContents;
-	private static String contactsDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
+	public static final String contactsDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
 	
 	/**
 	* Constructor which takes a text file and reads each line as a field of the
@@ -76,7 +76,7 @@ public class Contact{
 		int j = 0;
 		do{
 			j++;
-			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Note" + j + ".txt");
+			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Contact" + j + ".txt");
 		}while(newContactFile.exists() == true);
 		
 		contactFile = newContactFile;
