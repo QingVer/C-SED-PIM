@@ -56,14 +56,14 @@ public class ContactMenuCLI {
 
 	public void loadContacts() {
 		try {
-			File contactsDirectory = new File(Contact.getContactsDirectory());
+			File contactsDirectory = new File(Contact.contactsDirectory);
 			File contacts[] = contactsDirectory.listFiles();
 			for (int i = 0; i < contacts.length; i++) {
 				contactList.add(new Contact(contacts[i]));
 			}
 		} catch (NullPointerException e) {
 			System.err.println("No Contacts To Load");
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -294,4 +294,5 @@ public class ContactMenuCLI {
 			}
 		}
 	}
+
 }
