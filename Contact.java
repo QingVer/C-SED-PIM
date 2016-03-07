@@ -242,8 +242,4 @@ public class Contact{
 		
 		return wasSuccessful;
 	}
-
-	public static String getContactsDirectory() {
-		return contactsDirectory;
-	}
 }

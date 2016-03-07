@@ -18,8 +18,13 @@ public class Note{
 	private String bodyText;
 	
 	private File noteFile;
+<<<<<<< HEAD
 	
 	public  static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes"; 
+=======
+
+	public static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
+>>>>>>> origin/George's_Branch
 	
 	/**
 	 * Constructor which takes a text file, with the first line representing the .
@@ -158,5 +163,9 @@ public class Note{
 		}
 		
 		return wasSuccessful;
+	}
+
+	public static final String getNotesDirectory() {
+		return notesDirectory;
 	}
 }
