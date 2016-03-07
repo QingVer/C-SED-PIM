@@ -21,8 +21,7 @@ public class DynOSor{
 	 * the application's menus.
 	 */
 	public DynOSor(){
-		
-		
+		fileCheck();
 	}
 	
 	/**
