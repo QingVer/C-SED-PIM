@@ -31,7 +31,8 @@ public class Contact{
 		
 		try {
 			contactReader = new Scanner(this.contactFile);
-			
+			fieldNames = new ArrayList<String>();
+			fieldContents = new ArrayList<String>();
 			while(contactReader.hasNext() == true){
 				String field = contactReader.nextLine();
 				if (field.contains(":") && field.length() >= 3){
@@ -60,6 +61,8 @@ public class Contact{
 	 */
 	public Contact(ArrayList<String> initialFields){
 		//Gets all of the supplied initial fields.
+		fieldNames = new ArrayList<String>();
+		fieldContents = new ArrayList<String>();
 		String fieldName;
 		String fieldContent;
 		for (int i = 0; i < initialFields.size(); i++){
@@ -76,7 +79,7 @@ public class Contact{
 		int j = 0;
 		do{
 			j++;
-			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Note" + j + ".txt");
+			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Contact" + j + ".txt");
 		}while(newContactFile.exists() == true);
 		
 		contactFile = newContactFile;
@@ -172,7 +175,7 @@ public class Contact{
 	 */
 	public boolean modifyField(String nameOfFieldToModify, String newFieldContents){
 		boolean wasSuccessful = false;
-		
+
 		if(getFieldIndexByName(nameOfFieldToModify) != -1 || getFieldIndexByName(nameOfFieldToModify) >= fieldContents.size()){
 			fieldContents.set(getFieldIndexByName(nameOfFieldToModify), newFieldContents);
 			wasSuccessful = updateContactFile();
@@ -194,9 +197,10 @@ public class Contact{
 	 */
 	public int getFieldIndexByName(String fieldName){
 		int fieldIndex = -1;
+		fieldName = fieldName.toUpperCase();
 		
 		for (int i = 0; i < fieldNames.size(); i++){
-			if (fieldName == fieldNames.get(i)){
+			if (fieldName.equals(fieldNames.get(i).toUpperCase())) {
 				fieldIndex = i;
 				break;
 			}
@@ -229,15 +233,17 @@ public class Contact{
 			
 			//If the method reaches this point, it has successfully completed the writing operation.
 			wasSuccessful = true;
+			contactWriter.close();
 		}
 		catch (FileNotFoundException ex){
 			System.err.println("Could not write to specified note file because the file could not be found.");
-		}
-		finally {
-			//Closes the file writer
-			contactWriter.close();
+			ex.printStackTrace();
 		}
 		
 		return wasSuccessful;
+	}
+
+	public static String getContactsDirectory() {
+		return contactsDirectory;
 	}
 }
