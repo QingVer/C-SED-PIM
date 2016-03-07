@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class DynOSor{
 	private NoteMenuCLI noteMenu;
 	private ContactMenuCLI contactMenu;
+	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
 	
 	/**
 	 * Constructor with no parameters which simply checks
@@ -20,12 +21,37 @@ public class DynOSor{
 	 * the application's menus.
 	 */
 	public DynOSor(){
+<<<<<<< HEAD
 		/* TODO Check that the following directories exist:
 		 * 		user.home/DynOSor
 		 * 		user.home/DynOSor/Contacts
 		 * 		user.home/DynOSor/Notes
 		 */
 
+=======
+		
+		
+	}
+	
+	/**
+	* Checks to make sure that the directories the program needs
+	* to functons exist, and creates them if they do not.
+	*/
+	public fileCheck(){
+		File rootDir = new File(rootDirectory);
+		File contactDir = new File(contactsDirectory);
+		File noteDir = new File(Note.notesDirectory);
+		
+		if(rootDir.exists() == false){
+			rootDir.mkdir();
+		}
+		if(contactDir.exists() == false){
+			contactDir.mkdir();
+		}
+		if(noteDir.exists() == false){
+			noteDir.mkdir();
+		}
+>>>>>>> refs/remotes/origin/master
 	}
 	
 	/**
