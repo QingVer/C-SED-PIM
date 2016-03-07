@@ -36,7 +36,7 @@ public class DynOSor{
 		
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI(userInputScanner);
+		noteMenu = new NoteMenuCLI(/*I don't think we need to feed a scanner into the cli*/);
 		
 		while(userInputScanner.hasNext() == true){
 			//TODO Implement the main menu CLI.
