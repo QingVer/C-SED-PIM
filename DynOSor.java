@@ -15,11 +15,7 @@ public class DynOSor{
 	private NoteMenuCLI noteMenu;
 	private ContactMenuCLI contactMenu;
 	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> origin/George's_Branch
 	/**
 	 * Constructor with no parameters which simply checks
 	 * to ensure that the applications directories exist,
@@ -27,17 +23,11 @@ public class DynOSor{
 	 * the application's menus.
 	 */
 	public DynOSor(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-		/* TODO Check that the following directories exist:
-		 * 		user.home/DynOSor
-		 * 		user.home/DynOSor/Contacts
-		 * 		user.home/DynOSor/Notes
-		 */
-
-=======
+		fileCheck();
 		
-		
+		Scanner userInputScanner = new Scanner(System.in);
+		contactMenu = new ContactMenuCLI(userInputScanner);
+		contactMenu.showMainContactMenu();
 	}
 	
 	/**
@@ -58,12 +48,6 @@ public class DynOSor{
 		if(noteDir.exists() == false){
 			noteDir.mkdir();
 		}
->>>>>>> refs/remotes/origin/master
-=======
-		Scanner userInputScanner = new Scanner(System.in);
-		fileCheck();
-		contactMenu = new ContactMenuCLI(userInputScanner);
-		contactMenu.showMainContactMenu();
 	}
 
 	/**
@@ -84,7 +68,7 @@ public class DynOSor{
 		if (!noteDir.exists()) {
 			noteDir.mkdir();
 		}
->>>>>>> origin/George's_Branch
+
 	}
 
 	/**
