@@ -16,6 +16,7 @@ public class DynOSor{
 	private ContactMenuCLI contactMenu;
 	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
 
+	
 	/**
 	 * Constructor with no parameters which simply checks
 	 * to ensure that the applications directories exist,
@@ -23,10 +24,32 @@ public class DynOSor{
 	 * the application's menus.
 	 */
 	public DynOSor(){
-		Scanner userInputScanner = new Scanner(System.in);
 		fileCheck();
+		
+		Scanner userInputScanner = new Scanner(System.in);
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		contactMenu.showMainContactMenu();
+		contactMenu.showMainContactMenu();		
+	}
+	
+	/**
+	* Checks to make sure that the directories the program needs
+	* to functons exist, and creates them if they do not.
+	*/
+	public fileCheck(){
+		File rootDir = new File(rootDirectory);
+		File contactDir = new File(contactsDirectory);
+		File noteDir = new File(Note.notesDirectory);
+		
+		if(rootDir.exists() == false){
+			rootDir.mkdir();
+		}
+		if(contactDir.exists() == false){
+			contactDir.mkdir();
+		}
+		if(noteDir.exists() == false){
+			noteDir.mkdir();
+		}
+
 	}
 
 	/**
