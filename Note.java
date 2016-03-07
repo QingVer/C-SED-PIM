@@ -19,7 +19,7 @@ public class Note{
 	
 	private File noteFile;
 	
-	private static String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes"; 
+	public  static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes"; 
 	
 	/**
 	 * Constructor which takes a text file, with the first line representing the .
