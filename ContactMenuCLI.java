@@ -7,19 +7,20 @@ public class ContactMenuCLI {
 	ArrayList<Contact> contactList = new ArrayList<Contact>();
 	ArrayList<String> contactFields = new ArrayList<String>() {{
 		add("Name");
+		add("Number");
 	}};
 	
 	public ContactMenuCLI(Scanner userInputScanner){
 		this.userInputScanner = userInputScanner;
 		loadContacts();
-		showMainContactMenu();
 	}
 
 	public void showMainContactMenu() {
 		try {
 			System.out.println("Type Help For Command List");
 			while (true) {
-				System.out.println("Enter Command (Type \"Quit\" At Any Point To Go Back):");
+				System.out.println("\n##### CONTACTS MENU #####\n" +
+						"Enter Command (Type \"Quit\" At Any Point To Go Back):");
 				String input = getInput();
 				System.out.println();
 				String output = parseCommand(input);
@@ -44,7 +45,7 @@ public class ContactMenuCLI {
 
 	public void listContact(int id) {
 		try {
-			ArrayList contactInfo = contactList.get(id).viewContact();
+			ArrayList contactInfo = contactList.get(id - 1).viewContact();
 			System.out.println("##### CONTACT #####");
 			for (int i = 0; i < contactInfo.size(); i++) {
 				System.out.println(contactInfo.get(i));
@@ -70,54 +71,54 @@ public class ContactMenuCLI {
 	public String parseCommand(String command) {
 		String commands[] = command.split(" ");
 		String output = "FAIL";
-		switch (commands[0].toUpperCase()) {
-			case "EDITCONTACT":
-				output = editContactCLI();
-				break;
-			case "NEWFIELD":
-				newContactCLI();
-				break;
-			case "NEW":
-				output = newContactCLI();
-				break;
-			case "HELP":
-				output = "Help - Lists All Commands" +
-						"New - Creates A New Contact\n" +
-						"NewField - Creates A New Field For A Contact" +
-						"Edit - Change Field Contents For A Contact\n" +
-						"List - Prints All Contacts Names\n" +
-						"List <id> - Print All Contact Details For Given ID\n" +
-						"Remove - Removes A Contact\n" +
-						"Remove <id> - Removes Given Contact\n" +
-						"RemoveField - Removes A Field From A Contact\n";
-				break;
-			case "LIST":
-				if (commands.length == 1) {
-					listContacts();
-				} else {
-					listContact(Integer.parseInt(commands[1]));
-				}
-				output = "";
-				break;
-			case "REMOVE":
-				if (commands.length == 1) {
-					output = removeContactCLI();
-				} else {
-					if (removeContact(Integer.parseInt(commands[1]))) {
-						output = "SUCCESS";
+		try {
+			switch (commands[0].toUpperCase()) {
+				case "EDIT":
+					output = editContactCLI();
+					break;
+				case "NEW":
+					output = newContactCLI();
+					break;
+				case "HELP":
+					output = "Help - Lists All Commands\n" +
+							"New - Creates A New Contact\n" +
+							"Edit - Change/Add Field Contents For A Contact\n" +
+							"List - Prints All Contacts Names\n" +
+							"List <id> - Print All Contact Details For Given ID\n" +
+							"Remove - Removes A Contact\n" +
+							"Remove <id> - Removes Given Contact\n" +
+							"RemoveField - Removes A Field From A Contact\n";
+					break;
+				case "LIST":
+					if (commands.length == 1) {
+						listContacts();
+					} else {
+						listContact(Integer.parseInt(commands[1]));
 					}
-				}
-				break;
-			case "REMOVEFIELD":
-				removeFieldCLI();
-				break;
+					output = "";
+					break;
+				case "REMOVE":
+					if (commands.length == 1) {
+						output = removeContactCLI();
+					} else {
+						if (removeContact(Integer.parseInt(commands[1]))) {
+							output = "SUCCESS";
+						}
+					}
+					break;
+				case "REMOVEFIELD":
+					removeFieldCLI();
+					break;
+			}
+		} catch (NumberFormatException e){
+			System.err.println("Not A Valid Number");
 		}
 		return output;
 	}
 
 	public boolean editContact(int id, String nameOfField, String newContents) {
 		try {
-			Contact contact = contactList.get(id);
+			Contact contact = contactList.get(id - 1);
 			return contact.modifyField(nameOfField, newContents);
 		} catch (IndexOutOfBoundsException e) {
 			System.err.println("Field Doesn't Exist!");
@@ -130,7 +131,7 @@ public class ContactMenuCLI {
 			listContacts();
 			while (true) {
 				System.out.print("\n\nWhich Contact Would You Like To Change (ID): ");
-				int id = Integer.parseInt(getInput());
+				int id = getInt();
 				if (id <= contactList.size()) {
 					System.out.println();
 					listContact(id);
@@ -194,7 +195,7 @@ public class ContactMenuCLI {
 				}
 			}
 			newContact(fields);
-			listContact(contactList.size() - 1);
+			listContact(contactList.size());
 			return "SUCCESS";
 		} catch (QuitException e) {
 			return "CANCELLED";
@@ -211,13 +212,13 @@ public class ContactMenuCLI {
 	}
 
 	public boolean addField(int id, String fieldName, String fieldContent) {
-		return contactList.get(id).addField(fieldName, fieldContent);
+		return contactList.get(id - 1).addField(fieldName, fieldContent);
 	}
 
 	private String addFieldCLI() {
 		try {
 			System.out.print("\nWhich Contact Would You Like To Edit (ID):");
-			int id = Integer.parseInt(getInput());
+			int id = getInt();
 			System.out.print("\nWhat Is The New Field Called: ");
 			String fieldName = getInput();
 			System.out.print("\nEnter Field Content: ");
@@ -248,8 +249,9 @@ public class ContactMenuCLI {
 
 	private String removeContactCLI() {
 		try {
+			listContacts();
 			System.out.print("\nWhich Contact Would You Like To Remove (ID):");
-			int id = Integer.parseInt(getInput());
+			int id = getInt();
 			return removeContact(id) + "";
 		} catch (QuitException e) {
 			return "CANCELLED";
@@ -258,7 +260,7 @@ public class ContactMenuCLI {
 
 	private boolean removeField(int id, String fieldName) {
 		try {
-			return contactList.get(id).removeField(fieldName);
+			return contactList.get(id - 1).removeField(fieldName);
 		} catch (IndexOutOfBoundsException e) {
 			System.err.println("Contact Does Not Exist!");
 			return false;
@@ -268,7 +270,7 @@ public class ContactMenuCLI {
 	private String removeFieldCLI() {
 		try {
 			System.out.print("\nWhich Contact Would You Like To Remove A Field From (ID):");
-			int id = Integer.parseInt(getInput());
+			int id = getInt();
 			listContact(id);
 			System.out.print("\nWhich Field Would You Like To Remove: ");
 			String fieldName = getInput();
@@ -291,6 +293,28 @@ public class ContactMenuCLI {
 				throw new QuitException();
 			} else {
 				return input;
+			}
+		}
+	}
+
+	private int getInt() throws QuitException {
+		while (true){
+			try {
+				String input = userInputScanner.nextLine();
+				if (input.equals("")) {
+					System.out.println("Please Enter Something: ");
+				} else if (input.toUpperCase().equals("QUIT")) {
+					throw new QuitException();
+				} else {
+					int id =  Integer.parseInt(input);
+					if(id <= contactList.size()){
+						return id;
+					} else {
+						System.err.println("No Contact With That ID");
+					}
+				}
+			} catch (NumberFormatException e){
+				System.err.println("Not Valid Number");
 			}
 		}
 	}
