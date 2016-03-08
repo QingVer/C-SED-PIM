@@ -25,10 +25,10 @@ public class DynOSor{
 	 */
 	public DynOSor(){
 		fileCheck();
-		
+
 		Scanner userInputScanner = new Scanner(System.in);
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		contactMenu.showMainContactMenu();		
+		contactMenu.showMainContactMenu();
 	}
 	
 	/**
