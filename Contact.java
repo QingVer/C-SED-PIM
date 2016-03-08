@@ -17,7 +17,7 @@ public class Contact{
 	private File contactFile;
 	private ArrayList<String> fieldNames;
 	private ArrayList<String> fieldContents;
-	private static String contactsDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
+	public static final String contactsDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
 	
 	/**
 	* Constructor which takes a text file and reads each line as a field of the
@@ -31,7 +31,8 @@ public class Contact{
 		
 		try {
 			contactReader = new Scanner(this.contactFile);
-			
+			fieldNames = new ArrayList<String>();
+			fieldContents = new ArrayList<String>();
 			while(contactReader.hasNext() == true){
 				String field = contactReader.nextLine();
 				if (field.contains(":") && field.length() >= 3){
@@ -50,8 +51,39 @@ public class Contact{
 		}
 	}
 	
-	public Contact(String[] intialFields){
-		//TODO Implement Constructor for creating a brand new contact given initial fields in an array of strings.
+	/**
+	 * Constructor which takes an ArrayList of field strings which it then decomposes into its
+	 * component parts (fieldName and fieldContents). A file is then created in which the new
+	 * contact's fields are stored.
+	 * As it creates a new contact, it creates a new contact file.
+	 *  
+	 * @param intialFields An ArrayList containing field strings of the form fieldName:fieldContent
+	 */
+	public Contact(ArrayList<String> initialFields){
+		//Gets all of the supplied initial fields.
+		fieldNames = new ArrayList<String>();
+		fieldContents = new ArrayList<String>();
+		String fieldName;
+		String fieldContent;
+		for (int i = 0; i < initialFields.size(); i++){
+			String[] field = initialFields.get(i).split(":", 2);
+			fieldName = field[0];
+			fieldContent = field[1];
+			
+			fieldNames.add(fieldName);
+			fieldContents.add(fieldContent);
+		}
+		
+		//Creates the new contact's file.
+		File newContactFile;
+		int j = 0;
+		do{
+			j++;
+			newContactFile = new File(contactsDirectory + System.getProperty("file.separator") + "Contact" + j + ".txt");
+		}while(newContactFile.exists() == true);
+		
+		contactFile = newContactFile;
+		updateContactFile();
 	}
 	
 	/**
@@ -63,7 +95,6 @@ public class Contact{
 	 */
 	public ArrayList<String> viewContact(){
 		ArrayList<String> fields = new ArrayList<String>();
-		
 		
 		for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++){
 			if (fieldNumber < fieldContents.size()){
@@ -121,7 +152,7 @@ public class Contact{
 	public boolean removeField(String nameOfFieldToDelete){
 		boolean wasSuccessful = false;
 		
-		if(getFieldIndexByName(nameOfFieldToDelete) == -1 || getFieldIndexByName(nameOfFieldToDelete) >= fieldContents.size()){
+		if(getFieldIndexByName(nameOfFieldToDelete) != -1 || getFieldIndexByName(nameOfFieldToDelete) >= fieldContents.size()){
 			fieldContents.remove(getFieldIndexByName(nameOfFieldToDelete));
 			fieldNames.remove(getFieldIndexByName(nameOfFieldToDelete));
 			wasSuccessful = updateContactFile();
@@ -144,8 +175,8 @@ public class Contact{
 	 */
 	public boolean modifyField(String nameOfFieldToModify, String newFieldContents){
 		boolean wasSuccessful = false;
-		
-		if(getFieldIndexByName(nameOfFieldToModify) == -1 || getFieldIndexByName(nameOfFieldToModify) >= fieldContents.size()){
+
+		if(getFieldIndexByName(nameOfFieldToModify) != -1 || getFieldIndexByName(nameOfFieldToModify) >= fieldContents.size()){
 			fieldContents.set(getFieldIndexByName(nameOfFieldToModify), newFieldContents);
 			wasSuccessful = updateContactFile();
 		}
@@ -166,9 +197,10 @@ public class Contact{
 	 */
 	public int getFieldIndexByName(String fieldName){
 		int fieldIndex = -1;
+		fieldName = fieldName.toUpperCase();
 		
 		for (int i = 0; i < fieldNames.size(); i++){
-			if (fieldName == fieldNames.get(i)){
+			if (fieldName.equals(fieldNames.get(i).toUpperCase())) {
 				fieldIndex = i;
 				break;
 			}
@@ -201,13 +233,11 @@ public class Contact{
 			
 			//If the method reaches this point, it has successfully completed the writing operation.
 			wasSuccessful = true;
+			contactWriter.close();
 		}
 		catch (FileNotFoundException ex){
 			System.err.println("Could not write to specified note file because the file could not be found.");
-		}
-		finally {
-			//Closes the file writer
-			contactWriter.close();
+			ex.printStackTrace();
 		}
 		
 		return wasSuccessful;

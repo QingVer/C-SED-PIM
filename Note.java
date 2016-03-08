@@ -18,8 +18,8 @@ public class Note{
 	private String bodyText;
 	
 	private File noteFile;
-	
-	private static String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes"; 
+
+	public static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
 	
 	/**
 	 * Constructor which takes a text file, with the first line representing the .
@@ -54,16 +54,24 @@ public class Note{
 	/**
 	 * Constructor which creates a new instance of Note with
 	 * the given title and body text.
+	 * As it creates a new note, it creates a new note file.
 	 * 
 	 * @param title the new note's title text.
 	 * @param body the new note's body text.
 	 */
 	public Note(String title, String body){
+		File newNoteFile;
 		titleText = title;
 		bodyText = body;
 		
-		String noteSuffix = ((Integer)(new File(notesDirectory).listFiles().length)).toString();
-		noteFile = new File(notesDirectory + "note" + noteSuffix);
+		//Finds an unused filename, then creates the new file.
+		int i = 0;
+		do{
+			i++;
+			newNoteFile = new File(notesDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+		}while(newNoteFile.exists() == true);
+		
+		noteFile = newNoteFile;
 		updateNoteFile();
 	}
 	

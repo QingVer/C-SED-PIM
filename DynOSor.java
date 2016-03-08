@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Scanner;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Entry class for the Dynamic Organiser and Sorter program.
@@ -10,8 +11,11 @@ import java.util.Scanner;
  * This is for the initial CLI version of DynOSor.
  */
 public class DynOSor{
+	private Scanner userInputScanner;
 	private NoteMenuCLI noteMenu;
 	private ContactMenuCLI contactMenu;
+	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
+
 	
 	/**
 	 * Constructor with no parameters which simply checks
@@ -20,29 +24,71 @@ public class DynOSor{
 	 * the application's menus.
 	 */
 	public DynOSor(){
-		/* TODO Check that the following directories exist:
-		 * 		user.home/DynOSor
-		 * 		user.home/DynOSor/Contacts
-		 * 		user.home/DynOSor/Notes
-		 */
+		fileCheck();
+
+		Scanner userInputScanner = new Scanner(System.in);
+		contactMenu = new ContactMenuCLI(userInputScanner);
+		contactMenu.showMainContactMenu();
 	}
 	
+	/**
+	* Checks to make sure that the directories the program needs
+	* to functons exist, and creates them if they do not.
+	*/
+	public fileCheck(){
+		File rootDir = new File(rootDirectory);
+		File contactDir = new File(contactsDirectory);
+		File noteDir = new File(Note.notesDirectory);
+		
+		if(rootDir.exists() == false){
+			rootDir.mkdir();
+		}
+		if(contactDir.exists() == false){
+			contactDir.mkdir();
+		}
+		if(noteDir.exists() == false){
+			noteDir.mkdir();
+		}
+
+	}
+
+	/**
+	 * Checks to make sure that the directories the program needs
+	 * to functons exist, and creates them if they do not.
+	 */
+	public void fileCheck() {
+		File rootDir = new File(rootDirectory);
+		File contactDir = new File(Contact.contactsDirectory);
+		File noteDir = new File(Note.notesDirectory);
+
+		if (!rootDir.exists()) {
+			rootDir.mkdir();
+		}
+		if (!contactDir.exists()) {
+			contactDir.mkdir();
+		}
+		if (!noteDir.exists()) {
+			noteDir.mkdir();
+		}
+	}
+
 	/**
 	 * Shows a set of menu options to the user and continually monitors
 	 * their command line input. Once this method exits, the program closes.
 	 */
 	public void showMainMenu(){
 		Scanner userInputScanner = new Scanner(System.in);
-		
+
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI(/*I don't think we need to feed a scanner into the cli*/);
-		
-		while(userInputScanner.hasNext() == true){
-			//TODO Implement the main menu CLI.
+
+		noteMenu = new NoteMenuCLI(userInputScanner);
+
+		while (userInputScanner.hasNext() == true) {
+			
 		}
 	}
-	
+
 	public static void main(String[] args){
 		DynOSor mainMenu = new DynOSor();
 		mainMenu.showMainMenu();
