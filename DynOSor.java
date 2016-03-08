@@ -81,10 +81,11 @@ public class DynOSor{
 
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
+
 		noteMenu = new NoteMenuCLI(userInputScanner);
 
-		while (userInputScanner.hasNext()) {
-			//TODO Implement the main menu CLI.
+		while (userInputScanner.hasNext() == true) {
+			
 		}
 	}
 
