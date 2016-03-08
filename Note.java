@@ -159,8 +159,4 @@ public class Note{
 		
 		return wasSuccessful;
 	}
-
-	public static final String getNotesDirectory() {
-		return notesDirectory;
-	}
 }
