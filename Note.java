@@ -151,8 +151,4 @@ public class Note{
 		
 		return wasSuccessful;
 	}
-	
-	public String getNotesDirectory(){
-		return notesDirectory;
-	}
 }
