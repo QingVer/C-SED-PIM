@@ -75,12 +75,21 @@ public class DynOSor{
 			return;
 		}
 	}
-
+	
+	/**
+	 * Entry method for DynOSor. Instantiates a new DynOSor object
+	 * and calls the showMainMenu method.
+	 */
 	public static void main(String[] args){
 		DynOSor mainMenu = new DynOSor();
 		mainMenu.showMainMenu();
 	}
-
+	
+	/**
+	 * Gets input from the user via the command line.
+	 * 
+	 * @return The String entered by the user via the command line.
+	 */
 	private String getInput() throws QuitException {
 		while (true) {
 			String input = userInputScanner.nextLine();
