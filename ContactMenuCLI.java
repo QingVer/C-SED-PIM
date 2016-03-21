@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class ContactMenuCLI {
 	private Scanner userInputScanner;
 	ArrayList<Contact> contactList = new ArrayList<Contact>();
-	ArrayList<String> contactFields = new ArrayList<String>() {{
+	@SuppressWarnings("serial")	ArrayList<String> contactFields = new ArrayList<String>() {{
 		add("Name");
 		add("Number");
 	}};
@@ -57,7 +57,7 @@ public class ContactMenuCLI {
 
 	public void loadContacts() {
 		try {
-			File contactsDirectory = new File(Contact.contactsDirectory);
+			File contactsDirectory = new File(Contact.fileDirectory);
 			File contacts[] = contactsDirectory.listFiles();
 			for (int i = 0; i < contacts.length; i++) {
 				contactList.add(new Contact(contacts[i]));

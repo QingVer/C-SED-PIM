@@ -49,13 +49,13 @@ public class NoteMenuCLI {
 	 * user can select a note numerically and get an option menu (selectedNoteCommands())
 	 * */
 	public void listNotes(){
-		if(new File(Note.notesDirectory).listFiles().length == 0){
+		if(new File(Note.fileDirectory).listFiles().length == 0){
 			System.err.println("Directory is empty, please create a note first...");
 			showMainNoteMenu();
 			
 		}else{
 			System.out.println("Select a note via number selection");
-			int amountOfNotes = (Integer)(new File(Note.notesDirectory).listFiles().length);
+			int amountOfNotes = (Integer)(new File(Note.fileDirectory).listFiles().length);
 		
 			for(int i = 0; i < amountOfNotes; i++){
 				System.out.println("(" + (i+1) + ") Note"+(i));
@@ -67,7 +67,7 @@ public class NoteMenuCLI {
 		
 				//if the input of the user is solely numerical and the part of the list of notes
 				if(userInputString.length() == (amountOfNotes + "").length() && userInputString.matches("[0-9]+") && Integer.parseInt(userInputString) <= amountOfNotes && Integer.parseInt(userInputString) != 0){
-					File file[] = (new File(Note.notesDirectory).listFiles());
+					File file[] = (new File(Note.fileDirectory).listFiles());
 				
 					for(File f : file){
 						//TODO check if this works even if the filename ends with an .extension
