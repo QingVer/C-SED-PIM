@@ -33,8 +33,8 @@ public class DynOSor{
 	 */
 	public void fileCheck(){
 		File rootDir = new File(rootDirectory);
-		File contactDir = new File(Contact.contactsDirectory);
-		File noteDir = new File(Note.notesDirectory);
+		File contactDir = new File(Contact.fileDirectory);
+		File noteDir = new File(Note.fileDirectory);
 
 		if(!rootDir.exists()){
 			rootDir.mkdir();
@@ -55,7 +55,7 @@ public class DynOSor{
 	public void showMainMenu(){
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI(userInputScanner);
+		noteMenu = new NoteMenuCLI();
 		try {
 			while (true) {
 				System.out.println("##### DynOSor #####");

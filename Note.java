@@ -10,16 +10,17 @@ import java.io.FileNotFoundException;
  * modifying and deleting these notes.
  * 
  * 
- * @version Sprint 1, V1.0
+ * @version Sprint 2, V1.2
  */
 public class Note{
 	
-	private String titleText;
-	private String bodyText;
+	protected String titleText;
+	protected String bodyText;
+	protected File noteFile;
+	public static String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
 	
-	private File noteFile;
-
-	public static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
+	protected Note(){
+	}
 	
 	/**
 	 * Constructor which takes a text file, with the first line representing the .
@@ -68,7 +69,7 @@ public class Note{
 		int i = 0;
 		do{
 			i++;
-			newNoteFile = new File(notesDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
 		}while(newNoteFile.exists() == true);
 		
 		noteFile = newNoteFile;
@@ -126,7 +127,7 @@ public class Note{
 	 */
 	public boolean deleteNote(){
 		boolean wasSuccessful = false;
-		wasSuccessful = noteFile.delete();
+		wasSuccessful = noteFile.delete();		
 		return wasSuccessful;
 	}
 	
