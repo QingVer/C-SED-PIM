@@ -8,6 +8,8 @@ import java.util.Scanner;
  * to navigate the application's other menu trees.
  *
  * This is for the initial CLI version of DynOSor.
+ * 
+ * @version Sprint 1, V1.0
  */
 public class DynOSor{
 	private Scanner userInputScanner;
@@ -29,13 +31,15 @@ public class DynOSor{
 
 	/**
 	 * Checks to make sure that the directories the program needs
-	 * to functons exist, and creates them if they do not.
+	 * to function exist, and creates them if they do not.
 	 */
 	public void fileCheck(){
 		File rootDir = new File(rootDirectory);
 		File contactDir = new File(Contact.fileDirectory);
 		File noteDir = new File(Note.fileDirectory);
-
+		File toDoDir = new File(ToDoItem.fileDirectory);
+		File appointmentDir = new File(Appointment.fileDirectory);
+		
 		if(!rootDir.exists()){
 			rootDir.mkdir();
 		}
@@ -44,6 +48,12 @@ public class DynOSor{
 		}
 		if(!noteDir.exists()){
 			noteDir.mkdir();
+		}
+		if(!toDoDir.exists()){
+			toDoDir.mkdir();
+		}
+		if(!appointmentDir.exists()){
+			appointmentDir.mkdir();
 		}
 
 	}

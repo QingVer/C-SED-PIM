@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
  * This class contains methods to create, modify and delete contacts and
  * their fields.
  * 
+ * @author Joshua Evans
  * @version Sprint 1, V1.0
  */
 public class Contact{
@@ -17,12 +18,14 @@ public class Contact{
 	private File contactFile;
 	private ArrayList<String> fieldNames;
 	private ArrayList<String> fieldContents;
-	public static String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
+	public static final String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Contacts";
 	
 	/**
 	* Constructor which takes a text file and reads each line as a field of the
 	* form fieldName:fieldContents.
 	* Each field name and its contents are added to their appropriate ArrayLists.
+	*
+	* @param contactFile The file containing contact data.
 	*/
 	public Contact(File contactFile){
 		this.contactFile = contactFile;
@@ -33,6 +36,8 @@ public class Contact{
 			contactReader = new Scanner(this.contactFile);
 			fieldNames = new ArrayList<String>();
 			fieldContents = new ArrayList<String>();
+			
+			//Reads contact fields
 			while(contactReader.hasNext() == true){
 				String field = contactReader.nextLine();
 				if (field.contains(":") && field.length() >= 3){
@@ -45,6 +50,9 @@ public class Contact{
 		}
 		catch (FileNotFoundException ex){
 			System.err.println("Could not read from the specified note file because the file could not be found.");
+		}
+		catch (NoSuchElementException ex){
+			System.err.println("Invalid Contact File");
 		}
 		finally {
 			contactReader.close();
@@ -241,5 +249,14 @@ public class Contact{
 		}
 		
 		return wasSuccessful;
+	}
+	
+	/**
+	* Returns the contact's file.
+	*
+	* @return The contact's file.
+	*/
+	public File getFile(){
+	 return contactFile;
 	}
 }
