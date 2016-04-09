@@ -95,6 +95,11 @@ public class Appointment {
 		updateNoteFile();
 	}
 	
+	/**
+	* Sets the appointment's title.
+	*
+	* @param title The appointment's title.
+	*/
 	public boolean setTitle(String title){
 		boolean wasSuccessful = false;
 		this.title = title;
@@ -102,6 +107,11 @@ public class Appointment {
 		return wasSuccessful;
 	}
 	
+	/**
+	* Sets the appointment's description.
+	*
+	* @param desc The appointment's description.
+	*/
 	public boolean setDesc(String desc){
 		boolean wasSuccessful = false;
 		this.desc = desc;
@@ -109,6 +119,11 @@ public class Appointment {
 		return wasSuccessful;
 	}
 	
+	/**
+	* Sets the appointment's location.
+	*
+	* @param location The appointment's location.
+	*/
 	public boolean setLocation(String location){
 		boolean wasSuccessful = false;
 		this.location = location;
@@ -116,6 +131,11 @@ public class Appointment {
 		return wasSuccessful;
 	}
 	
+	/**
+	* Sets the appointment's start date and time.
+	*
+	* @param startDate The appointment's start date and time.
+	*/
 	public boolean setStartDate(Date startDate){
 		boolean wasSuccessful = false;
 		this.startDate = startDate;
@@ -123,6 +143,11 @@ public class Appointment {
 		return wasSuccessful;
 	}
 	
+	/**
+	* Sets the appointment's duration in hours. Doesn't need to be an integer.
+	*
+	* @param title The appointment's duration in hours.
+	*/
 	public boolean setDuration(float durationHours){
 		boolean wasSuccessful = false;
 		this.durationHours = durationHours;
@@ -130,28 +155,53 @@ public class Appointment {
 		return wasSuccessful;
 	}
 	
+	/**
+	* Returns the appointment's title.
+	*
+	* @return the appointment's title.
+	*/
 	public String getTitle(){
 		return title;
 	}
 	
+	/**
+	* Returns the appointment's description.
+	*
+	* @return the appointment's description.
+	*/
 	public String getDesc(){
 		return desc;
 	}
 	
+	/**
+	* Returns the appointment's location.
+	*
+	* @return the appointment's location.
+	*/
 	public String getLocation(){
 		return location;
 	}
 	
+	/**
+	* Returns the appointment's start date and time.
+	*
+	* @return the appointment's start date and time.
+	*/
 	public Date getStartDate(){
 	 return startDate;
 	}
 	
+	/**
+	* Returns the appointment's duration in hours.
+	*
+	* @return the appointment's duration in hours.
+	*/
 	public float getDurationHours(){
 		return durationHours;
 	}
 	
 	/**
-	 * Deletes the note's file.
+	 * Deletes the appointment's file.
 	 * 
 	 * @return whether or not the file deletion operation was successful.
 	 */
@@ -162,7 +212,7 @@ public class Appointment {
 	}
 	
 	/**
-	 * Re-writes the note's file, with its title on the first line
+	 * Re-writes the appointment's file, with its title on the first line
 	 * and its body on the following line(s).
 	 * 
 	 * @return whether or not the file writing operation was successful.
@@ -172,7 +222,7 @@ public class Appointment {
 		PrintWriter appointmentWriter = null;
 		
 		try {
-			//Writes the title text to the note file, followed by the body text.
+			//Writes the appointment's data to a file.
 			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			appointmentWriter = new PrintWriter(appointmentFile);
 			
