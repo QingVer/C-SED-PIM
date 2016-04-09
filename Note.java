@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
  * This class contains constructors and methods for creating,
  * modifying and deleting these notes.
  * 
- * 
+ * @author Joshua Evans
  * @version Sprint 2, V1.2
  */
 public class Note{
@@ -45,6 +45,9 @@ public class Note{
 		}
 		catch (FileNotFoundException ex){
 			System.err.println("Could not read from the specified note file because the file could not be found.");
+		}
+		catch (NoSuchElementException ex){
+			System.err.println("Invalid Note File");
 		}
 		finally {
 			noteReader.close();
@@ -159,5 +162,14 @@ public class Note{
 		}
 		
 		return wasSuccessful;
+	}
+	
+	/**
+	* Returns the note's file.
+	*
+	* @return The note's file.
+	*/
+	public File getFile(){
+	 return contactFile;
 	}
 }
