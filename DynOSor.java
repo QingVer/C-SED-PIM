@@ -39,7 +39,7 @@ public class DynOSor{
 		File contactDir = new File(Contact.fileDirectory);
 		File noteDir = new File(Note.fileDirectory);
 		File toDoDir = new File(ToDoItem.fileDirectory);
-		//File appointmentDir = new File(Appointment.fileDirectory);
+		File appointmentDir = new File(Appointment.fileDirectory);
 		
 		if(!rootDir.exists()){
 			rootDir.mkdir();
@@ -53,10 +53,9 @@ public class DynOSor{
 		if(!toDoDir.exists()){
 			toDoDir.mkdir();
 		}
-		//if(!appointmentDir.exists()){
-		//	appointmentDir.mkdir();
-		//}
-
+		if(!appointmentDir.exists()){
+			appointmentDir.mkdir();
+		}
 	}
 
 	/**
@@ -68,6 +67,7 @@ public class DynOSor{
 		contactMenu = new ContactMenuCLI(userInputScanner);
 		noteMenu = new NoteMenuCLI();
 		toDoMenu = new ToDoCLI(userInputScanner);
+
 		try {
 			while (true) {
 				System.out.println("##### DynOSor #####");

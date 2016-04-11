@@ -172,6 +172,6 @@ public class Note{
 	* @return The note's file.
 	*/
 	public File getFile(){
-	 return noteFile;
+		return noteFile;
 	}
 }

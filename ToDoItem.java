@@ -1,7 +1,10 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+<<<<<<< HEAD
 import java.util.NoSuchElementException;
+=======
+>>>>>>> refs/remotes/origin/master
 import java.util.Scanner;
 
 /**
@@ -81,8 +84,6 @@ public class ToDoItem extends Note{
 			System.out.println(newNoteFile.toString());
 		} while (newNoteFile.exists());
 		noteFile = newNoteFile;
-		updateNoteFile();
-		this.isComplete = isComplete;
 		updateNoteFile();
 	}
 	
