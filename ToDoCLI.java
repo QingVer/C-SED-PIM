@@ -3,9 +3,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Created by Georgew on 10/04/2016.
+ * A CLI to view and change ToDo Items
+ * @author George Andrews
+ * @version 1.1
  */
 public class ToDoCLI {
+	//Variables
     private Scanner userInputScanner;
     private ArrayList<ToDoItem> toDoItems;
     public ToDoCLI(Scanner userInputScanner){
@@ -14,6 +17,11 @@ public class ToDoCLI {
         loadToDo();
     }
 
+    /**
+     * Constructor.
+     * Loads the current stored ToDoItems from
+     * the folder.
+     */
     private void loadToDo(){
         try {
             File toDoDirectory = new File(ToDoItem.fileDirectory);
@@ -27,6 +35,9 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Starts the CLI menu.
+     */
     public void  showMainToDoMenu(){
         try{
             System.out.println("Type Help For Command List");
@@ -47,6 +58,13 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Gets a string input from the user.
+     * @return
+     * The users input
+     * @throws QuitException
+     * Thrown if the user enters "QUIT"
+     */
     private String getInput() throws QuitException {
         while (true) {
             String input = userInputScanner.nextLine();
@@ -60,6 +78,15 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Gets an integer input from the user.
+     * @param max
+     * The input has to be <= max
+     * @return
+     * The users inputed int
+     * @throws QuitException
+     * Thrown when the user enters quit.
+     */
     private int getInt(int max) throws QuitException {
         while (true){
             try {
@@ -82,6 +109,13 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Takes a command and carries out the corrosponding action.
+     * @param command
+     * The command.
+     * @return
+     * If the string was successful or not
+     */
     private String parseCommand(String command){
         String commands[] = command.split(" ");
         String output = "FAIL";
@@ -123,6 +157,11 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Guides the user through creating a new ToDoItem
+     * @return
+     * Success/Fail
+     */
     private String newToDo(){
         try {
             System.out.println("##### NEW TODO #####\n" +
@@ -154,6 +193,9 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Lists the title of all ToDoItems
+     */
     private void listToDo(){
         System.out.print("##### TODO's #####");
         for (int i = 0; i < toDoItems.size(); i++) {
@@ -162,6 +204,11 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Lists all details of the given ToDoItem
+     * @param id
+     * The id of the ToDoItem
+     */
     private void listToDo(int id){
         try {
             String title = toDoItems.get(id - 1).getTitleText();
@@ -173,7 +220,12 @@ public class ToDoCLI {
             System.out.println("ToDo Does Not Exist!");
         }
     }
-
+    
+    /**
+     * Guides the user through editing a ToDoItem
+     * @return
+     * SUCCESS/FAIL
+     */
     private String editToDo(){
         try {
             listToDo();
@@ -185,7 +237,11 @@ public class ToDoCLI {
             return "FAIL";
         }
     }
-
+/**
+ * Guides the user through editing a ToDoItem
+ * @return
+ * SUCCESS/FAIL
+ */
     private String editToDo(int id){
         try {
             listToDo(id);
@@ -216,6 +272,11 @@ public class ToDoCLI {
         }
     }
 
+/**
+ * Guides the user through removing a ToDoItem
+ * @return
+ * SUCCESS/FAIL
+ */
     private String removeToDo(){
         try {
             listToDo();
@@ -228,6 +289,11 @@ public class ToDoCLI {
         }
     }
 
+    /**
+     * Guides the user through removing a ToDoItem
+     * @return
+     * SUCCESS/FAIL
+     */
     private String removeToDo(int id){
         ToDoItem toDoItem = toDoItems.get(id - 1);
         toDoItem.deleteNote();
@@ -236,6 +302,9 @@ public class ToDoCLI {
         return "SUCCESS";
     }
 
+    /**
+     * Lists all commands
+     */
     private void help(){
         System.out.println("COMMANDS:\n" +
                 "NEW - Create A New ToDo Item\n" +
