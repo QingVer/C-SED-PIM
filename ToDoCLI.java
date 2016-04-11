@@ -97,7 +97,7 @@ public class ToDoCLI {
                     throw new QuitException();
                 } else {
                     int id =  Integer.parseInt(input);
-                    if(id <= max){
+                    if(id <= max && id > 0){
                         return id;
                     } else {
                         System.err.println("Not A Valid Selection");
