@@ -24,13 +24,13 @@ public class AppointmentCLI {
             //checks if user has input is valid
             if(userInputString.length() == 1){
                 switch(userInputString.charAt(0)){
-                    case 1:
+                    case '1':
                         getNewAppointmentInfo();
                         break;
-                    case 2:
+                    case '2':
                         listAppointments();
                         break;
-                    case 3:
+                    case '3':
                         selectionExit = true;
                         break;
                     default:
