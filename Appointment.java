@@ -28,6 +28,12 @@ public class Appointment {
 	public static final String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Appointments";
 	
 	/**
+	 * Constructor with no parameters, for use with AppointmentCLI.
+	 */
+	public Appointment(){
+	}
+	
+	/**
 	* Given a file containing an appointment's data, this
 	* constructor initialises the appointment object using
 	* data read from the file.
