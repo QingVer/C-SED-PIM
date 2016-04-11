@@ -54,7 +54,7 @@ public class Appointment {
 			location = appointmentReader.nextLine();
 			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			startDate = new Date();
-			startDate = new DateFormat.parse(dateFormatter.parse(appointmentReader.nextLine()));
+			startDate = dateFormatter.parse(appointmentReader.nextLine());
 			durationHours = Float.parseFloat(appointmentReader.nextLine());
 		}
 		catch (FileNotFoundException ex){
@@ -67,6 +67,7 @@ public class Appointment {
 			System.err.println("Invalid Appointment File");
 		}
 		finally {
+			assert appointmentReader != null;
 			appointmentReader.close();
 		}	
 	}
@@ -95,10 +96,10 @@ public class Appointment {
 		do{
 			i++;
 			newAppointmentFile = new File(fileDirectory + System.getProperty("file.separator") + "Appointment" + i + ".txt");
-		} while(newAppointmentFile.exists() == true);
+		} while(newAppointmentFile.exists()  == true);
 		
 		appointmentFile = newAppointmentFile;
-		updateNoteFile();
+		updateAppointmentFile();
 	}
 	
 	/**
@@ -109,7 +110,7 @@ public class Appointment {
 	public boolean setTitle(String title){
 		boolean wasSuccessful = false;
 		this.title = title;
-		wasSuccessful = updateNoteFile();
+		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
 	
@@ -121,7 +122,7 @@ public class Appointment {
 	public boolean setDesc(String desc){
 		boolean wasSuccessful = false;
 		this.desc = desc;
-		wasSuccessful = updateNoteFile();
+		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
 	
@@ -133,7 +134,7 @@ public class Appointment {
 	public boolean setLocation(String location){
 		boolean wasSuccessful = false;
 		this.location = location;
-		wasSuccessful = updateNoteFile();
+		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
 	
@@ -145,19 +146,19 @@ public class Appointment {
 	public boolean setStartDate(Date startDate){
 		boolean wasSuccessful = false;
 		this.startDate = startDate;
-		wasSuccessful = updateNoteFile();
+		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
 	
 	/**
 	* Sets the appointment's duration in hours. Doesn't need to be an integer.
 	*
-	* @param title The appointment's duration in hours.
+	* @param durationHours The appointment's duration in hours.
 	*/
 	public boolean setDuration(float durationHours){
 		boolean wasSuccessful = false;
 		this.durationHours = durationHours;
-		wasSuccessful = updateNoteFile();
+		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
 	
@@ -246,6 +247,7 @@ public class Appointment {
 		}
 		finally {
 			//Closes the file writer
+			assert appointmentWriter != null;
 			appointmentWriter.close();
 		}
 		

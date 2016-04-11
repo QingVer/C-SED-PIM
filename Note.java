@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.File;
@@ -73,6 +74,7 @@ public class Note{
 		do{
 			i++;
 			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+			System.out.println(newNoteFile.toString());
 		}while(newNoteFile.exists() == true);
 		
 		noteFile = newNoteFile;
@@ -170,6 +172,6 @@ public class Note{
 	* @return The note's file.
 	*/
 	public File getFile(){
-	 return contactFile;
+		return noteFile;
 	}
 }

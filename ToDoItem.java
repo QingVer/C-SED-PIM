@@ -1,6 +1,10 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+<<<<<<< HEAD
+import java.util.NoSuchElementException;
+=======
+>>>>>>> refs/remotes/origin/master
 import java.util.Scanner;
 
 /**
@@ -12,8 +16,8 @@ import java.util.Scanner;
  */
 public class ToDoItem extends Note{
 
-	private boolean isComplete;	
-	@Override public static String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "ToDo";
+	private boolean isComplete;
+	public static String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "ToDo";
 	
 	
 	/**
@@ -68,8 +72,18 @@ public class ToDoItem extends Note{
 	* @param isComplete The completion state for this to-do item.
 	*/
 	public ToDoItem(String title, String body, boolean isComplete) {
-		super(title, body);
-		this.isComplete = isComplete;
+		File newNoteFile;
+		titleText = title;
+		bodyText = body;
+
+		//Finds an unused filename, then creates the new file.
+		int i = 0;
+		do{
+			i++;
+			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+			System.out.println(newNoteFile.toString());
+		} while (newNoteFile.exists());
+		noteFile = newNoteFile;
 		updateNoteFile();
 	}
 	

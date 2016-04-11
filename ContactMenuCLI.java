@@ -7,7 +7,9 @@ public class ContactMenuCLI {
 	ArrayList<Contact> contactList = new ArrayList<Contact>();
 	@SuppressWarnings("serial")	ArrayList<String> contactFields = new ArrayList<String>() {{
 		add("Name");
-		add("Number");
+		add("Phone Number");
+		add("Email Address");
+		add("Address");
 	}};
 	
 	public ContactMenuCLI(Scanner userInputScanner){
@@ -131,7 +133,7 @@ public class ContactMenuCLI {
 			listContacts();
 			while (true) {
 				System.out.print("\n\nWhich Contact Would You Like To Change (ID): ");
-				int id = getInt();
+				int id = getInt(contactList.size());
 				if (id <= contactList.size()) {
 					System.out.println();
 					listContact(id);
@@ -218,7 +220,7 @@ public class ContactMenuCLI {
 	private String addFieldCLI() {
 		try {
 			System.out.print("\nWhich Contact Would You Like To Edit (ID):");
-			int id = getInt();
+			int id = getInt(contactList.size());
 			System.out.print("\nWhat Is The New Field Called: ");
 			String fieldName = getInput();
 			System.out.print("\nEnter Field Content: ");
@@ -251,7 +253,7 @@ public class ContactMenuCLI {
 		try {
 			listContacts();
 			System.out.print("\nWhich Contact Would You Like To Remove (ID):");
-			int id = getInt();
+			int id = getInt(contactList.size());
 			return removeContact(id) + "";
 		} catch (QuitException e) {
 			return "CANCELLED";
@@ -270,7 +272,7 @@ public class ContactMenuCLI {
 	private String removeFieldCLI() {
 		try {
 			System.out.print("\nWhich Contact Would You Like To Remove A Field From (ID):");
-			int id = getInt();
+			int id = getInt(contactList.size());
 			listContact(id);
 			System.out.print("\nWhich Field Would You Like To Remove: ");
 			String fieldName = getInput();
@@ -297,7 +299,7 @@ public class ContactMenuCLI {
 		}
 	}
 
-	private int getInt() throws QuitException {
+	private int getInt(int max) throws QuitException {
 		while (true){
 			try {
 				String input = userInputScanner.nextLine();
@@ -307,10 +309,10 @@ public class ContactMenuCLI {
 					throw new QuitException();
 				} else {
 					int id =  Integer.parseInt(input);
-					if(id <= contactList.size()){
+					if(id <= max){
 						return id;
 					} else {
-						System.err.println("No Contact With That ID");
+						System.err.println("Not A Valid Selection");
 					}
 				}
 			} catch (NumberFormatException e){
