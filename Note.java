@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.File;
@@ -9,17 +10,18 @@ import java.io.FileNotFoundException;
  * This class contains constructors and methods for creating,
  * modifying and deleting these notes.
  * 
- * 
- * @version Sprint 1, V1.0
+ * @author Joshua Evans
+ * @version Sprint 2, V1.2
  */
 public class Note{
 	
-	private String titleText;
-	private String bodyText;
+	protected String titleText;
+	protected String bodyText;
+	protected File noteFile;
+	public static String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
 	
-	private File noteFile;
-
-	public static final String notesDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Notes";
+	protected Note(){
+	}
 	
 	/**
 	 * Constructor which takes a text file, with the first line representing the .
@@ -45,6 +47,9 @@ public class Note{
 		catch (FileNotFoundException ex){
 			System.err.println("Could not read from the specified note file because the file could not be found.");
 		}
+		catch (NoSuchElementException ex){
+			System.err.println("Invalid Note File");
+		}
 		finally {
 			noteReader.close();
 		}
@@ -68,7 +73,8 @@ public class Note{
 		int i = 0;
 		do{
 			i++;
-			newNoteFile = new File(notesDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
+			System.out.println(newNoteFile.toString());
 		}while(newNoteFile.exists() == true);
 		
 		noteFile = newNoteFile;
@@ -126,7 +132,7 @@ public class Note{
 	 */
 	public boolean deleteNote(){
 		boolean wasSuccessful = false;
-		wasSuccessful = noteFile.delete();
+		wasSuccessful = noteFile.delete();		
 		return wasSuccessful;
 	}
 	
@@ -158,5 +164,14 @@ public class Note{
 		}
 		
 		return wasSuccessful;
+	}
+	
+	/**
+	* Returns the note's file.
+	*
+	* @return The note's file.
+	*/
+	public File getFile(){
+		return noteFile;
 	}
 }

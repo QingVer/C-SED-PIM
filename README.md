@@ -14,3 +14,5 @@ Coursework by group 14 public repository.
 2. Navigate to the directory :file_folder: where you downloaded the CSED_PIM.jar file.
 3. Shift+Right Click in the directory and select "Open Command Window Here".
 4. To run the test executable, type "java -jar CSED_PIM.jar" into the command window that you opened.
+
+If you get the error "java is not recognized as an internal or external command, operable or batch file", you need to download the latest version of Java from [here](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html).
