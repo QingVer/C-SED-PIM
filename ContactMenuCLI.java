@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ContactMenuCLI {
 	private Scanner userInputScanner;
-	ArrayList<Contact> contactList = new ArrayList<Contact>();
+	ArrayList<Contact> contactList = new ArrayList<>();
 	@SuppressWarnings("serial")	ArrayList<String> contactFields = new ArrayList<String>() {{
 		add("Name");
 		add("Phone Number");
@@ -309,7 +309,7 @@ public class ContactMenuCLI {
 					throw new QuitException();
 				} else {
 					int id =  Integer.parseInt(input);
-					if(id <= max){
+					if (id <= max && id > 0) {
 						return id;
 					} else {
 						System.err.println("Not A Valid Selection");

@@ -144,25 +144,20 @@ public class Note{
 	 */
 	public boolean updateNoteFile(){
 		boolean wasSuccessful = false;
-		PrintWriter noteWriter = null;
-		
-		try {
-			//Writes the title text to the note file, followed by the body text.
-			noteWriter = new PrintWriter(noteFile);
+
+		//Writes the title text to the note file, followed by the body text.
+		try (PrintWriter noteWriter = new PrintWriter(noteFile)) {
 			noteWriter.println(titleText);
 			noteWriter.println(bodyText);
-			
+
 			//If the method reaches this point, it has successfully completed the writing operation.
 			wasSuccessful = true;
-		}
-		catch (FileNotFoundException ex){
+		} catch (FileNotFoundException ex) {
 			System.err.println("Could not write to specified note file because the file could not be found.");
 		}
-		finally {
-			//Closes the file writer
-			noteWriter.close();
-		}
-		
+		//Closes the file writer
+
+
 		return wasSuccessful;
 	}
 	
