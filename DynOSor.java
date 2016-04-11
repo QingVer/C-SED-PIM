@@ -15,6 +15,7 @@ public class DynOSor{
 	private Scanner userInputScanner;
 	private NoteMenuCLI noteMenu;
 	private ContactMenuCLI contactMenu;
+	private ToDoCLI toDoMenu;
 	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
 
 
@@ -55,7 +56,6 @@ public class DynOSor{
 		if(!appointmentDir.exists()){
 			appointmentDir.mkdir();
 		}
-
 	}
 
 	/**
@@ -66,19 +66,25 @@ public class DynOSor{
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
 		noteMenu = new NoteMenuCLI();
+		toDoMenu = new ToDoCLI(userInputScanner);
+
 		try {
 			while (true) {
 				System.out.println("##### DynOSor #####");
 				System.out.println("\nWhich Menu Would You Like To Enter:" +
 						"\n- Contacts" +
 						"\n- Notes" +
+						"\n- ToDo" +
 						"\nEnter Selection: ");
-				if(getInput().toUpperCase().equals("CONTACTS")){
+				String input = getInput();
+				if(input.toUpperCase().equals("CONTACTS")){
 					contactMenu.showMainContactMenu();
-				} else if(getInput().toUpperCase().equals("NOTES")){
+				} else if(input.toUpperCase().equals("NOTES")){
 					noteMenu.showMainNoteMenu();
+				} else if(input.toUpperCase().equals("TODO")) {
+					toDoMenu.showMainToDoMenu();
 				} else {
-					System.err.println("Not A Vaild Selection");
+					System.err.println("Not A Valid Selection");
 				}
 			}
 		} catch (QuitException e){
