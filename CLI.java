@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * Created by Georgew on 12/04/2016.
  */
-public class CLI {
+public abstract class CLI {
     //Variables
     private Scanner scanner;
     public CLI(Scanner scanner){
