@@ -16,9 +16,10 @@ public class AppointmentCLI {
     public void showMainAppointmentMenu(){
         //boolean used to check if user wants to quit
         boolean selectionExit = false;
+        userInputReader = new Scanner(System.in);
+        
         while(!selectionExit){
-            System.out.println("(1) Create an appointment\n(2) View Appointments\n(3) Go back");
-            userInputReader = new Scanner(System.in);
+            System.out.println("(1) Create an appointment\n(2) View Appointments\n(3) Go back");    
             String userInputString = userInputReader.nextLine();
 
             //checks if user has input is valid
@@ -145,7 +146,7 @@ public class AppointmentCLI {
             titleText = noteInfoReader.nextLine();
             System.out.println("\nPlease enter a description for your note - use \\n to indicate new lines");
             descriptionText = noteInfoReader.nextLine();
-            System.out.println("Please enter a duration for your appointment:");
+            System.out.println("Please enter a duration for your appointment, in hours:");
             duration = Float.parseFloat(noteInfoReader.nextLine());
             System.out.println("Please enter a date and time for your appointment in the format dd/MM/yyyy HH:mm:ss:");
             try {
@@ -153,7 +154,6 @@ public class AppointmentCLI {
             }catch(Exception e){
                 System.err.println("Error");
             }
-            noteInfoReader.close();
 
             appointment = new Appointment(titleText, descriptionText, locationText, time, duration);
         }catch (Exception e){
