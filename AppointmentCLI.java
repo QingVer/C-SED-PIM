@@ -125,6 +125,7 @@ public class AppointmentCLI extends CLI {
                         break;
                     case 6:
                         app.deleteAppointment();
+                        appointments.remove(app);
                         System.out.println("Deleted!");
                         throw new QuitException();
                     default:
@@ -143,29 +144,31 @@ public class AppointmentCLI extends CLI {
             String titleText;
             String descriptionText;
             String locationText;
-            Date time = new Date();
+            Date time;
             float duration;
 
-            Scanner noteInfoReader = new Scanner(System.in);
-
             System.out.println("Please enter a title for your appointment:");
-            titleText = noteInfoReader.nextLine();
+            titleText = getInput();
             System.out.println("\nPlease enter a description for your note - use \\n to indicate new lines");
-            descriptionText = noteInfoReader.nextLine();
+            descriptionText = getInput();
             System.out.println("Please enter a duration for your appointment, in hours:");
-            duration = Float.parseFloat(noteInfoReader.nextLine());
+            duration = getInt(999999999);
             System.out.println("Please enter the location for your appointment");
-            locationText = noteInfoReader.nextLine();
-            System.out.println("Please enter a date and time for your appointment in the format dd/MM/yyyy HH:mm:ss:");
-            try {
-                time = ((new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).parse(noteInfoReader.nextLine()));
-            } catch (Exception e) {
-                System.err.println("Error");
+            locationText = getInput();
+            System.out.println("Please enter a date and time for your appointment in the format dd/MM/yyyy HH:mm");
+            while (true) {
+                try {
+                    time = ((new SimpleDateFormat("dd/MM/yyyy HH:mm")).parse(getInput()));
+                    break;
+                } catch (Exception e) {
+                    System.err.println("Not In Valid Format!");
+                }
             }
 
-            new Appointment(titleText, descriptionText, locationText, time, duration);
+            appointments.add(new Appointment(titleText, descriptionText, locationText, time, duration));
         } catch (Exception e) {
             System.err.println("Error with the creation of the appointment...");
         }
     }
+
 }
