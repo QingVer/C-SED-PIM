@@ -130,8 +130,6 @@ public class NoteMenuCLI {
 		System.out.println("\nPlease enter the body text for your note - use \\n to indicate new lines");
 		bodyText = noteInfoReader.nextLine();
 		
-		noteInfoReader.close();
-		
 		noteFile = new Note(titleText, bodyText);
 	}
 	
