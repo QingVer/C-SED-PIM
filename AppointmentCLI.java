@@ -147,7 +147,7 @@ public class AppointmentCLI {
             descriptionText = noteInfoReader.nextLine();
             System.out.println("Please enter a duration for your appointment:");
             duration = Float.parseFloat(noteInfoReader.nextLine());
-            System.out.println("Please enter a time for your appointment:");
+            System.out.println("Please enter a date and time for your appointment in the format dd/MM/yyyy HH:mm:ss:");
             try {
                 time = ((new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).parse(noteInfoReader.nextLine()));
             }catch(Exception e){
