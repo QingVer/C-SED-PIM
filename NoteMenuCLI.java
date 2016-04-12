@@ -23,13 +23,13 @@ public class NoteMenuCLI {
 			//checks if user has input is valid
 			if(userInputString.length() == 1){
 				switch(userInputString.charAt(0)){
-				case 1:
+				case '1':
 					getNewNoteInfo();
 					break;
-				case 2:
+				case '2':
 					listNotes();
 					break;
-				case 3:
+				case '3':
 					//TODO go back to main menu if seletionExit is true
 					selectionExit = true;
 					break;
