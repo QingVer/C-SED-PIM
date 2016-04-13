@@ -67,7 +67,7 @@ public class DynOSor{
 	public void showMainMenu(){
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI();
+		noteMenu = new NoteMenuCLI(userInputScanner);
 		toDoMenu = new ToDoCLI(userInputScanner);
 		appointmentMenu = new AppointmentCLI();
 
