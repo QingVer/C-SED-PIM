@@ -2,8 +2,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ContactMenuCLI {
-	private Scanner userInputScanner;
+public class ContactMenuCLI extends CLI {
 	ArrayList<Contact> contactList = new ArrayList<>();
 	@SuppressWarnings("serial")	ArrayList<String> contactFields = new ArrayList<String>() {{
 		add("Name");
@@ -13,7 +12,7 @@ public class ContactMenuCLI {
 	}};
 	
 	public ContactMenuCLI(Scanner userInputScanner){
-		this.userInputScanner = userInputScanner;
+		super(userInputScanner);
 		loadContacts();
 	}
 
@@ -283,41 +282,6 @@ public class ContactMenuCLI {
 			}
 		} catch (QuitException e) {
 			return "CANCELLED";
-		}
-	}
-
-	private String getInput() throws QuitException {
-		while (true) {
-			String input = userInputScanner.nextLine();
-			if (input.equals("")) {
-				System.out.println("Please Enter Something: ");
-			} else if (input.toUpperCase().equals("QUIT")) {
-				throw new QuitException();
-			} else {
-				return input;
-			}
-		}
-	}
-
-	private int getInt(int max) throws QuitException {
-		while (true){
-			try {
-				String input = userInputScanner.nextLine();
-				if (input.equals("")) {
-					System.out.println("Please Enter Something: ");
-				} else if (input.toUpperCase().equals("QUIT")) {
-					throw new QuitException();
-				} else {
-					int id =  Integer.parseInt(input);
-					if (id <= max && id > 0) {
-						return id;
-					} else {
-						System.err.println("Not A Valid Selection");
-					}
-				}
-			} catch (NumberFormatException e){
-				System.err.println("Not Valid Number");
-			}
 		}
 	}
 

@@ -1,29 +1,42 @@
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
-public class AppointmentCLI {
-    private Scanner userInputReader;
-    @SuppressWarnings("unused") private Appointment appointment;
+public class AppointmentCLI extends CLI {
+    private ArrayList<Appointment> appointments;
 
-    public AppointmentCLI(){
+    public AppointmentCLI(Scanner scanner) {
+        super(scanner);
+        appointments = new ArrayList<>();
+        try {
+            File directory = new File(Appointment.fileDirectory);
+            File files[] = directory.listFiles();
+            for (File file : files) {
+                appointments.add(new Appointment(file));
+            }
+        } catch (NullPointerException e) {
+            System.err.println("No Appointments To Load");
+            //e.printStackTrace();
+        }
     }
+
     /*
      * Displays a main menu in which the user can go back to the top level
      * menu, create a new note or view his/her notes
      */
-    public void showMainAppointmentMenu(){
-        //boolean used to check if user wants to quit
-        boolean selectionExit = false;
-        while(!selectionExit){
-            System.out.println("(1) Create an appointment\n(2) View Appointments\n(3) Go back");
-            userInputReader = new Scanner(System.in);
-            String userInputString = userInputReader.nextLine();
+    public void showMainAppointmentMenu() {
+        try {
+            //boolean used to check if user wants to quit
+            boolean selectionExit = false;
 
-            //checks if user has input is valid
-            if(userInputString.length() == 1){
-                switch(userInputString.charAt(0)){
+            while (!selectionExit) {
+                System.out.println("(1) Create an appointment\n(2) View Appointments\n(3) Go back");
+                int input = getInt(3);
+
+                //checks if user has input is valid
+                switch (input) {
                     case 1:
                         getNewAppointmentInfo();
                         break;
@@ -37,9 +50,9 @@ public class AppointmentCLI {
                         System.err.println("Please enter a valid option...");
                         break;
                 }
-            }else{
-                System.err.println("Please enter a valid option...");
             }
+        } catch (QuitException e) {
+            System.out.println("Returning To Main Menu...");
         }
     }
 
@@ -48,115 +61,112 @@ public class AppointmentCLI {
      * If notes are empty, it will return to the main menu and if not,
      * user can select a note numerically and get an option menu (selectedNoteCommands())
      * */
-    public void listAppointments(){
-        if(new File(Appointment.fileDirectory).listFiles().length == 0){
-            System.err.println("Directory is empty, please create an appointment first...");
-            showMainAppointmentMenu();
-
-        }else{
-            System.out.println("Select an appointment via number selection");
-            int amountOfApp = (Integer)(new File(Appointment.fileDirectory).listFiles().length);
-
-            for(int i = 0; i < amountOfApp; i++){
-                System.out.println("(" + (i+1) + ") Appointment"+(i));
-            }
-
-            while(true){
-                userInputReader = new Scanner(System.in);
-                String userInputString = userInputReader.nextLine();
-
-                //if the input of the user is solely numerical and the part of the list of notes
-                if(userInputString.length() == (amountOfApp + "").length() && userInputString.matches("[0-9]+") && Integer.parseInt(userInputString) <= amountOfApp && Integer.parseInt(userInputString) != 0){
-                    File file[] = (new File(Appointment.fileDirectory).listFiles());
-
-                    for(File f : file){
-                        if(f.getName().endsWith(userInputString)){
-                            Appointment a = new Appointment();
-                            selectedNoteCommands(a);
-
-                            System.out.println();
-                            showMainAppointmentMenu();;
-                            break;
-                        }
-                    }
-                }else{
-                    System.err.println("Please enter a valid option...");
+    public void listAppointments() {
+        try {
+            if (appointments.size() == 0) {
+                System.err.println("Directory is empty, please create an appointment first...");
+            } else {
+                System.out.println("Select an appointment via number selection");
+                for (int i = 0; i < +appointments.size(); i++) {
+                    System.out.println((i+1) + ") " + appointments.get(i).getTitle());
                 }
+                int viewId = getInt(appointments.size());
+                Appointment appointment = appointments.get(viewId - 1);
+                selectedNoteCommands(appointment);
+                //if the input of the user is solely numerical and the part of the list of notes
             }
+        } catch (QuitException e) {
+            System.out.println("Cancelling");
         }
+    }
+
+    private void printAppointment(Appointment appointment){
+        System.out.println("Title: " + appointment.getTitle() + "\nDescription: " +
+                appointment.getDesc() + "\nLocation: " +
+                appointment.getLocation() + "\nDate: " +
+                appointment.getStartDate().toString() + "\nDuration: " +
+                appointment.getDurationHours());
     }
 
     /*
      * Displays a menu that allows the user to edit a note,
      * delete a note, update title, update body or both
      * */
-    public void selectedNoteCommands(Appointment app){
-        while(true){
-            System.out.println("(1) Update Start Time\n(2) Update Title\n(3) Update Location\n(4)Update Description\n (\n(5) Update Duration\n (6)Delete Note");
-
-            userInputReader = new Scanner(System.in);
-            String userInputString = userInputReader.nextLine();
-
-            if(Character.isDigit(userInputString.charAt(0))){
-                switch (Integer.parseInt(userInputString)) {
+    public void selectedNoteCommands(Appointment app) {
+        try{
+            while (true) {
+                printAppointment(app);
+                System.out.println("(1) Update Start Time\n(2) Update Title\n(3) Update Location\n(4) Update Description\n(5) Update Duration\n(6) Delete Note");
+                int selection = getInt(6);
+                switch (selection) {
                     case 1:
                         try {
-                            app.setStartDate((new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).parse(userInputString));
-                        }catch(Exception e){
+                            System.out.println("Enter The New Start Time: ");
+                            app.setStartDate((new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).parse(getInput()));
+                        } catch (Exception e) {
                             System.err.println("Error");
                         }
                         break;
                     case 2:
-                        app.setTitle(userInputString);
+                        System.out.println("Enter The New Title: ");
+                        app.setTitle(getInput());
                         break;
                     case 3:
-                        app.setLocation(userInputString);
+                        System.out.println("Enter The Location: ");
+                        app.setLocation(getInput());
                         break;
                     case 4:
-                        app.setDesc(userInputString);
+                        System.out.println("Enter The New Description: ");
+                        app.setDesc(getInput());
                         break;
                     case 5:
-                        app.setDuration(Float.parseFloat(userInputString));
+                        System.out.println("Enter The Duration: ");
+                        app.setDuration(getInt(999999999));
                         break;
                     case 6:
                         app.deleteAppointment();
-                        break;
+                        appointments.remove(app);
+                        System.out.println("Deleted!");
+                        throw new QuitException();
                     default:
                         System.out.println("Please select an option in the list....");
                         break;
                 }
-            }else{
-                System.err.println("Please enter a valid option...");
             }
+        } catch (QuitException e){
+            System.out.println("Returning...");
         }
     }
 
-    public void getNewAppointmentInfo(){
+    public void getNewAppointmentInfo() {
         try {
-            String titleText = null;
-            String descriptionText = null;
-            String locationText = null;
-            Date time = null;
-            float duration = 0;
 
-            Scanner noteInfoReader = new Scanner(System.in);
+            String titleText;
+            String descriptionText;
+            String locationText;
+            Date time;
+            float duration;
 
             System.out.println("Please enter a title for your appointment:");
-            titleText = noteInfoReader.nextLine();
+            titleText = getInput();
             System.out.println("\nPlease enter a description for your note - use \\n to indicate new lines");
-            descriptionText = noteInfoReader.nextLine();
-            System.out.println("Please enter a duration for your appointment:");
-            duration = Float.parseFloat(noteInfoReader.nextLine());
-            System.out.println("Please enter a time for your appointment:");
-            try {
-                time = ((new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).parse(noteInfoReader.nextLine()));
-            }catch(Exception e){
-                System.err.println("Error");
+            descriptionText = getInput();
+            System.out.println("Please enter a duration for your appointment, in hours:");
+            duration = getInt(999999999);
+            System.out.println("Please enter the location for your appointment");
+            locationText = getInput();
+            System.out.println("Please enter a date and time for your appointment in the format dd/MM/yyyy HH:mm");
+            while (true) {
+                try {
+                    time = ((new SimpleDateFormat("dd/MM/yyyy HH:mm")).parse(getInput()));
+                    break;
+                } catch (Exception e) {
+                    System.err.println("Not In Valid Format!");
+                }
             }
-            noteInfoReader.close();
 
-            appointment = new Appointment(titleText, descriptionText, locationText, time, duration);
-        }catch (Exception e){
+            appointments.add(new Appointment(titleText, descriptionText, locationText, time, duration));
+        } catch (Exception e) {
             System.err.println("Error with the creation of the appointment...");
         }
     }
