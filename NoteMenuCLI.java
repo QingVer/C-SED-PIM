@@ -5,8 +5,8 @@ public class NoteMenuCLI {
 	private Scanner userInputReader;
 	@SuppressWarnings("unused") private Note noteFile;
 	
-	public NoteMenuCLI(){
-
+	public NoteMenuCLI(Scanner userInputReader){
+		this.userInputReader = userInputReader;
 	}
 	/*
 	 * Displays a main menu in which the user can go back to the top level
@@ -17,19 +17,18 @@ public class NoteMenuCLI {
 		boolean selectionExit = false;
 		while(!selectionExit){
 			System.out.println("(1) Create a note\n(2) View Notes\n(3) Go back");
-			userInputReader = new Scanner(System.in);
 			String userInputString = userInputReader.nextLine();
 			
 			//checks if user has input is valid
 			if(userInputString.length() == 1){
 				switch(userInputString.charAt(0)){
-				case 1:
+				case '1':
 					getNewNoteInfo();
 					break;
-				case 2:
+				case '2':
 					listNotes();
 					break;
-				case 3:
+				case '3':
 					//TODO go back to main menu if seletionExit is true
 					selectionExit = true;
 					break;
@@ -49,37 +48,31 @@ public class NoteMenuCLI {
 	 * user can select a note numerically and get an option menu (selectedNoteCommands())
 	 * */
 	public void listNotes(){
+		while(true){
+		
 		if(new File(Note.fileDirectory).listFiles().length == 0){
-			System.err.println("Directory is empty, please create a note first...");
-			showMainNoteMenu();
+			System.err.println("Directory is empty, please create a note first...");	
+		}
+			else {
+				File files[] = new File(Note.fileDirectory).listFiles();
+	
+				System.out.println("Select a note via number selection");
+				int amountOfNotes = files.length;
 			
-		}else{
-			System.out.println("Select a note via number selection");
-			int amountOfNotes = (Integer)(new File(Note.fileDirectory).listFiles().length);
-		
-			for(int i = 0; i < amountOfNotes; i++){
-				System.out.println("(" + (i+1) + ") Note"+(i));
-			}
-		
-			while(true){
-				userInputReader = new Scanner(System.in);
+				for(int i = 0; i < files.length; i++){
+					System.out.println("(" + (i) + ") " + files[i].getName());
+				}
+				
 				String userInputString = userInputReader.nextLine();
 		
 				//if the input of the user is solely numerical and the part of the list of notes
-				if(userInputString.length() == (amountOfNotes + "").length() && userInputString.matches("[0-9]+") && Integer.parseInt(userInputString) <= amountOfNotes && Integer.parseInt(userInputString) != 0){
-					File file[] = (new File(Note.fileDirectory).listFiles());
-				
-					for(File f : file){
-						//TODO check if this works even if the filename ends with an .extension
-						if(f.getName().endsWith(userInputString)){
-							selectedNoteCommands(new Note(f));
-							
-							System.out.println();
-							showMainNoteMenu();
-							break;
-						}	
-					}
-				}else{
+				if(userInputString.matches("[0-9]+") && Integer.parseInt(userInputString) < amountOfNotes){
+					selectedNoteCommands(new Note(files[Integer.parseInt(userInputString)]));		
+				}
+				else if (userInputString.toUpperCase().trim().equals("QUIT")){
+					break;
+				}
+				else{
 					System.err.println("Please enter a valid option...");
 				}
 			}
@@ -94,7 +87,7 @@ public class NoteMenuCLI {
 		while(true){
 			System.out.println("(1) Update title\n(2) Update Body\n(3) Delete Note");
 		
-			userInputReader = new Scanner(System.in);
+
 			String userInputString = userInputReader.nextLine();
 		
 			if(Character.isDigit(userInputString.charAt(0))){
@@ -114,7 +107,11 @@ public class NoteMenuCLI {
 						System.err.println("Please enter a valid option...");
 						break;
 				}
-			}else{
+			}
+			else if (userInputString.toUpperCase().trim().equals("QUIT")){
+				break;
+			}
+			else{
 				System.err.println("Please enter a valid option...");
 			}
 		}
@@ -123,14 +120,11 @@ public class NoteMenuCLI {
 	public void getNewNoteInfo(){
 		String titleText = null;
 		String bodyText = null;
-		Scanner noteInfoReader = new Scanner(System.in);
 		
 		System.out.println("Please enter a title for your note:");
-		titleText = noteInfoReader.nextLine();
+		titleText = userInputReader.nextLine();
 		System.out.println("\nPlease enter the body text for your note - use \\n to indicate new lines");
-		bodyText = noteInfoReader.nextLine();
-		
-		noteInfoReader.close();
+		bodyText = userInputReader.nextLine();
 		
 		noteFile = new Note(titleText, bodyText);
 	}

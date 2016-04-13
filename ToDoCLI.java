@@ -7,12 +7,11 @@ import java.util.Scanner;
  * @author George Andrews
  * @version 1.1
  */
-public class ToDoCLI {
+public class ToDoCLI extends CLI{
 	//Variables
-    private Scanner userInputScanner;
     private ArrayList<ToDoItem> toDoItems;
     public ToDoCLI(Scanner userInputScanner){
-        this.userInputScanner = userInputScanner;
+        super(userInputScanner);
         toDoItems = new ArrayList<>();
         loadToDo();
     }
@@ -55,57 +54,6 @@ public class ToDoCLI {
             }
         } catch (QuitException e){
             System.out.println("Returning To Main Menu....");
-        }
-    }
-
-    /**
-     * Gets a string input from the user.
-     * @return
-     * The users input
-     * @throws QuitException
-     * Thrown if the user enters "QUIT"
-     */
-    private String getInput() throws QuitException {
-        while (true) {
-            String input = userInputScanner.nextLine();
-            if (input.equals("")) {
-                System.out.println("Please Enter Something: ");
-            } else if (input.toUpperCase().equals("QUIT")) {
-                throw new QuitException();
-            } else {
-                return input;
-            }
-        }
-    }
-
-    /**
-     * Gets an integer input from the user.
-     * @param max
-     * The input has to be <= max
-     * @return
-     * The users inputed int
-     * @throws QuitException
-     * Thrown when the user enters quit.
-     */
-    private int getInt(int max) throws QuitException {
-        while (true){
-            try {
-                String input = userInputScanner.nextLine();
-                if (input.equals("")) {
-                    System.out.println("Please Enter Something: ");
-                } else if (input.toUpperCase().equals("QUIT")) {
-                    throw new QuitException();
-                } else {
-                    int id =  Integer.parseInt(input);
-                    if(id <= max){
-                        return id;
-                    } else {
-                        System.err.println("Not A Valid Selection");
-                    }
-                }
-            } catch (NumberFormatException e){
-                System.err.println("Not Valid Number");
-            }
         }
     }
 
