@@ -16,6 +16,7 @@ public class DynOSor{
 	private NoteMenuCLI noteMenu;
 	private ContactMenuCLI contactMenu;
 	private ToDoCLI toDoMenu;
+	private AppointmentCLI appointmentMenu;
 	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
 
 
@@ -56,6 +57,7 @@ public class DynOSor{
 		if(!appointmentDir.exists()){
 			appointmentDir.mkdir();
 		}
+
 	}
 
 	/**
@@ -65,30 +67,37 @@ public class DynOSor{
 	public void showMainMenu(){
 		//Initialises other menu trees
 		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI();
+		noteMenu = new NoteMenuCLI(userInputScanner);
 		toDoMenu = new ToDoCLI(userInputScanner);
+		appointmentMenu = new AppointmentCLI();
 
 		try {
 			while (true) {
 				System.out.println("##### DynOSor #####");
 				System.out.println("\nWhich Menu Would You Like To Enter:" +
-						"\n- Contacts" +
-						"\n- Notes" +
-						"\n- ToDo" +
+						"\n1 - Contacts" +
+						"\n2 - Notes" +
+						"\n3 - ToDo" +
+						"\n4 - Appointments" +
 						"\nEnter Selection: ");
-				String input = getInput();
-				if(input.toUpperCase().equals("CONTACTS")){
-					contactMenu.showMainContactMenu();
-				} else if(input.toUpperCase().equals("NOTES")){
-					noteMenu.showMainNoteMenu();
-				} else if(input.toUpperCase().equals("TODO")) {
-					toDoMenu.showMainToDoMenu();
-				} else {
-					System.err.println("Not A Valid Selection");
+				int input = getInt(4);
+				switch (input) {
+					case 1:
+						contactMenu.showMainContactMenu();
+						break;
+					case 2:
+						noteMenu.showMainNoteMenu();
+						break;
+					case 3:
+						toDoMenu.showMainToDoMenu();
+						break;
+					case 4:
+						appointmentMenu.showMainAppointmentMenu();
+						break;
 				}
 			}
 		} catch (QuitException e){
-			return;
+			System.out.println("Exiting...");
 		}
 	}
 	
@@ -106,15 +115,25 @@ public class DynOSor{
 	 * 
 	 * @return The String entered by the user via the command line.
 	 */
-	private String getInput() throws QuitException {
+
+	private int getInt(int max) throws QuitException {
 		while (true) {
-			String input = userInputScanner.nextLine();
-			if (input.equals("")) {
-				System.out.println("Please Enter Something: ");
-			} else if (input.toUpperCase().equals("QUIT")) {
-				throw new QuitException();
-			} else {
-				return input;
+			try {
+				String input = userInputScanner.nextLine();
+				if (input.equals("")) {
+					System.out.println("Please Enter Something: ");
+				} else if (input.toUpperCase().equals("QUIT")) {
+					throw new QuitException();
+				} else {
+					int id = Integer.parseInt(input);
+					if (id <= max && id > 0) {
+						return id;
+					} else {
+						System.err.println("Not A Valid Selection");
+					}
+				}
+			} catch (NumberFormatException e) {
+				System.err.println("Not Valid Number");
 			}
 		}
 	}

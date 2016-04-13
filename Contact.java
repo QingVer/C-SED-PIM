@@ -65,8 +65,8 @@ public class Contact{
 	 * component parts (fieldName and fieldContents). A file is then created in which the new
 	 * contact's fields are stored.
 	 * As it creates a new contact, it creates a new contact file.
-	 *  
-	 * @param intialFields An ArrayList containing field strings of the form fieldName:fieldContent
+	 *
+	 * @param initialFields An ArrayList containing field strings of the form fieldName:fieldContent
 	 */
 	public Contact(ArrayList<String> initialFields){
 		//Gets all of the supplied initial fields.
@@ -136,7 +136,7 @@ public class Contact{
 	 * 'adds' the field to the contact.
 	 * 
 	 * @param fieldName The field's name.
-	 * @param fieldContents The contents of the field.
+	 * @param fieldContent The contents of the field.
 	 * @return whether or not the field addition operation was successful.
 	 */
 	public boolean addField(String fieldName, String fieldContent){
@@ -154,8 +154,8 @@ public class Contact{
 	 * Given the name of the field to delete, this method removes that field's
 	 * name and contents from the appropriate ArrayLists, then updates the
 	 * contact file. 
-	 * 
-	 * @param fieldName The name of the field to be deleted.
+	 *
+	 * @param nameOfFieldToDelete The name of the field to be deleted.
 	 * @return whether or not the operation was successful.
 	 */
 	public boolean removeField(String nameOfFieldToDelete){

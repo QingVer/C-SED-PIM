@@ -9,14 +9,14 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
-* Class representing an appointment in a personal
-* organiser. Contains methods for initialising, 
-* accessing and manipulating appointment objects.
-*
-* @author Joshua Evans
-* @version Sprint 2, V1.0
-* @kill yourself
-*/
+ * Class representing an appointment in a personal
+ * organiser. Contains methods for initialising,
+ * accessing and manipulating appointment objects.
+ *
+ * @author Joshua Evans
+ * @version Sprint 2, V1.0
+ * @kill yourself
+ */
 public class Appointment {
 
 	private String title;
@@ -26,13 +26,13 @@ public class Appointment {
 	private float durationHours;
 	private File appointmentFile;
 	public static final String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Appointments";
-	
+
 	/**
 	 * Constructor with no parameters, for use with AppointmentCLI.
 	 */
 	public Appointment(){
 	}
-	
+
 	/**
 	* Given a file containing an appointment's data, this
 	* constructor initialises the appointment object using
@@ -42,12 +42,12 @@ public class Appointment {
 	*/
 	public Appointment(File appointmentFile){
 		this.appointmentFile = appointmentFile;
-		
+
 		Scanner appointmentReader = null;
-		
+
 		try {
 			appointmentReader = new Scanner(this.appointmentFile);
-			
+
 			//Reads all of the appointment data from given the file.
 			title = appointmentReader.nextLine();
 			desc = appointmentReader.nextLine();
@@ -69,9 +69,9 @@ public class Appointment {
 		finally {
 			assert appointmentReader != null;
 			appointmentReader.close();
-		}	
+		}
 	}
-	
+
 	/**
 	* Given all of the data pertaining to an instance of an appointment in a personal
 	* organiser, this constructor creates a new Appointment object and creates a new
@@ -96,7 +96,7 @@ public class Appointment {
 		do{
 			i++;
 			newAppointmentFile = new File(fileDirectory + System.getProperty("file.separator") + "Appointment" + i + ".txt");
-		} while(newAppointmentFile.exists()  == true);
+		} while (newAppointmentFile.exists() == true);
 		
 		appointmentFile = newAppointmentFile;
 		updateAppointmentFile();
@@ -149,96 +149,96 @@ public class Appointment {
 		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
-	
+
 	/**
-	* Sets the appointment's duration in hours. Doesn't need to be an integer.
-	*
-	* @param durationHours The appointment's duration in hours.
-	*/
+	 * Sets the appointment's duration in hours. Doesn't need to be an integer.
+	 *
+	 * @param durationHours The appointment's duration in hours.
+	 */
 	public boolean setDuration(float durationHours){
 		boolean wasSuccessful = false;
 		this.durationHours = durationHours;
 		wasSuccessful = updateAppointmentFile();
 		return wasSuccessful;
 	}
-	
+
 	/**
-	* Returns the appointment's title.
-	*
-	* @return the appointment's title.
-	*/
+	 * Returns the appointment's title.
+	 *
+	 * @return the appointment's title.
+	 */
 	public String getTitle(){
 		return title;
 	}
-	
+
 	/**
-	* Returns the appointment's description.
-	*
-	* @return the appointment's description.
-	*/
+	 * Returns the appointment's description.
+	 *
+	 * @return the appointment's description.
+	 */
 	public String getDesc(){
 		return desc;
 	}
-	
+
 	/**
-	* Returns the appointment's location.
-	*
-	* @return the appointment's location.
-	*/
+	 * Returns the appointment's location.
+	 *
+	 * @return the appointment's location.
+	 */
 	public String getLocation(){
 		return location;
 	}
-	
+
 	/**
-	* Returns the appointment's start date and time.
-	*
-	* @return the appointment's start date and time.
-	*/
+	 * Returns the appointment's start date and time.
+	 *
+	 * @return the appointment's start date and time.
+	 */
 	public Date getStartDate(){
-	 return startDate;
+		return startDate;
 	}
-	
+
 	/**
-	* Returns the appointment's duration in hours.
-	*
-	* @return the appointment's duration in hours.
-	*/
+	 * Returns the appointment's duration in hours.
+	 *
+	 * @return the appointment's duration in hours.
+	 */
 	public float getDurationHours(){
 		return durationHours;
 	}
-	
+
 	/**
 	 * Deletes the appointment's file.
-	 * 
+	 *
 	 * @return whether or not the file deletion operation was successful.
 	 */
 	public boolean deleteAppointment(){
 		boolean wasSuccessful = false;
-		wasSuccessful = appointmentFile.delete();		
+		wasSuccessful = appointmentFile.delete();
 		return wasSuccessful;
 	}
-	
+
 	/**
 	 * Re-writes the appointment's file, with its title on the first line
 	 * and its body on the following line(s).
-	 * 
+	 *
 	 * @return whether or not the file writing operation was successful.
 	 */
 	public boolean updateAppointmentFile(){
 		boolean wasSuccessful = false;
 		PrintWriter appointmentWriter = null;
-		
+
 		try {
 			//Writes the appointment's data to a file.
 			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			appointmentWriter = new PrintWriter(appointmentFile);
-			
+
 			appointmentWriter.println(title);
 			appointmentWriter.println(desc);
 			appointmentWriter.println(location);
 			appointmentWriter.println(dateFormatter.format(startDate));
 			appointmentWriter.println("" + durationHours);
-			
+
 			//If the method reaches this point, it has successfully completed the writing operation.
 			wasSuccessful = true;
 		}
@@ -250,15 +250,15 @@ public class Appointment {
 			assert appointmentWriter != null;
 			appointmentWriter.close();
 		}
-		
+
 		return wasSuccessful;
 	}
-	
+
 	/**
-	* Returns the note's file.
-	*
-	* @return The note's file.
-	*/
+	 * Returns the note's file.
+	 *
+	 * @return The note's file.
+	 */
 	public File getFile(){
 		return appointmentFile;
 	}
