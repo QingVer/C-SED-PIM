@@ -31,18 +31,19 @@ public class Note{
 	 */
 	public Note(File noteFile){
 		this.noteFile = noteFile;
-		
 		Scanner noteReader = null;
-		
+
 		try {
 			noteReader = new Scanner(this.noteFile);
 		
 			titleText = noteReader.nextLine();
-			
+			bodyText = "";
 			while (noteReader.hasNextLine()){
-				bodyText = bodyText + "\n" + noteReader.nextLine();
+				if(!bodyText.equals("")){
+					bodyText += "\n";
+				}
+				bodyText += noteReader.nextLine();
 			}
-			
 		}
 		catch (FileNotFoundException ex){
 			System.err.println("Could not read from the specified note file because the file could not be found.");
@@ -74,7 +75,6 @@ public class Note{
 		do{
 			i++;
 			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
-			System.out.println(newNoteFile.toString());
 		}while(newNoteFile.exists() == true);
 		
 		noteFile = newNoteFile;
