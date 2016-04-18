@@ -25,7 +25,6 @@ public class ToDoItem extends Note{
 	*/
 	public ToDoItem(File toDoItemFile) {
 		this.noteFile = toDoItemFile;
-		
 		Scanner toDoReader = null;
 		
 		//Reads the isComplete value.
@@ -44,8 +43,12 @@ public class ToDoItem extends Note{
 			titleText = toDoReader.nextLine();
 			
 			//Reads body text.
+			bodyText = "";
 			while (toDoReader.hasNextLine()){
-				bodyText = bodyText + "\n" + toDoReader.nextLine();
+				if(!bodyText.equals("")){
+					bodyText += "\n";
+				}
+				bodyText += toDoReader.nextLine();
 			}
 			
 		}
@@ -78,7 +81,6 @@ public class ToDoItem extends Note{
 		do{
 			i++;
 			newNoteFile = new File(fileDirectory + System.getProperty("file.separator") + "Note" + i + ".txt");
-			System.out.println(newNoteFile.toString());
 		} while (newNoteFile.exists());
 		noteFile = newNoteFile;
 		updateNoteFile();
