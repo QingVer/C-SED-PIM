@@ -1,5 +1,4 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,7 +19,7 @@ public class PINGui {
     public static void showGui(){
         ready = false;
         JFrame frame = new JFrame("Enter Pin...");
-        frame.setPreferredSize(new Dimension(300, 90));
+        //frame.setPreferredSize(new Dimension(300, 90));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());
@@ -30,6 +29,9 @@ public class PINGui {
         } else {
             label = new JLabel("Create a Digit Pin");
         }
+        Image image = DynOSor.getLogo();
+        label.setIcon(new ImageIcon(image.getScaledInstance(75,75,Image.SCALE_DEFAULT)));
+        label.setFont(new Font("Lucida",Font.BOLD,24));
         JTextField textBox = new JTextField();
         textBox.setPreferredSize(new Dimension(75, textBox.getPreferredSize().height));
         JButton continueButton = new JButton("Continue");
