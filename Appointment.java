@@ -28,7 +28,7 @@ public class Appointment {
 	public static final String fileDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor" + System.getProperty("file.separator") + "Appointments";
 
 	/**
-	 * Constructor with no parameters, for use with AppointmentCLI.
+	 * Constructor with no parameters, for use with AppointmentGUI.
 	 */
 	public Appointment(){
 	}
@@ -52,7 +52,7 @@ public class Appointment {
 			title = appointmentReader.nextLine();
 			desc = appointmentReader.nextLine();
 			location = appointmentReader.nextLine();
-			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			startDate = new Date();
 			startDate = dateFormatter.parse(appointmentReader.nextLine());
 			durationHours = Float.parseFloat(appointmentReader.nextLine());
@@ -230,7 +230,7 @@ public class Appointment {
 
 		try {
 			//Writes the appointment's data to a file.
-			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			appointmentWriter = new PrintWriter(appointmentFile);
 
 			appointmentWriter.println(title);
@@ -255,9 +255,9 @@ public class Appointment {
 	}
 
 	/**
-	 * Returns the note's file.
+	 * Returns the appointment's file.
 	 *
-	 * @return The note's file.
+	 * @return The appointment's file.
 	 */
 	public File getFile(){
 		return appointmentFile;

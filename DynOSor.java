@@ -1,5 +1,8 @@
+import java.awt.*;
 import java.io.File;
-import java.util.Scanner;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Entry class for the Dynamic Organiser and Sorter program.
@@ -7,18 +10,13 @@ import java.util.Scanner;
  * a constructor which initialises the application and methods
  * to navigate the application's other menu trees.
  *
- * This is for the initial CLI version of DynOSor.
+ * This is for the initial GUI version of DynOSor.
  * 
  * @version Sprint 1, V1.0
  */
 public class DynOSor{
-	private Scanner userInputScanner;
-	private NoteMenuCLI noteMenu;
-	private ContactMenuCLI contactMenu;
-	private ToDoCLI toDoMenu;
-	private AppointmentCLI appointmentMenu;
-	private static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
-
+	private static Image image = null;
+	public static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
 
 	/**
 	 * Constructor with no parameters which simply checks
@@ -28,7 +26,13 @@ public class DynOSor{
 	 */
 	public DynOSor(){
 		fileCheck();
-		userInputScanner = new Scanner(System.in);
+		URL url = null;
+		try {
+			url = new URL("https://raw.githubusercontent.com/QLVermeire/C-SED-PIM/master/DynOSor.jpg");
+		} catch (MalformedURLException e){
+			//
+		}
+		image = Toolkit.getDefaultToolkit().createImage(url);
 	}
 
 	/**
@@ -41,6 +45,7 @@ public class DynOSor{
 		File noteDir = new File(Note.fileDirectory);
 		File toDoDir = new File(ToDoItem.fileDirectory);
 		File appointmentDir = new File(Appointment.fileDirectory);
+		File alarmDir = new File(Alarm.fileDirectory);
 		
 		if(!rootDir.exists()){
 			rootDir.mkdir();
@@ -57,6 +62,9 @@ public class DynOSor{
 		if(!appointmentDir.exists()){
 			appointmentDir.mkdir();
 		}
+		if(!alarmDir.exists()){
+			alarmDir.mkdir();
+		}
 
 	}
 
@@ -64,77 +72,73 @@ public class DynOSor{
 	 * Shows a set of menu options to the user and continually monitors
 	 * their command line input. Once this method exits, the program closes.
 	 */
-	public void showMainMenu(){
-		//Initialises other menu trees
-		contactMenu = new ContactMenuCLI(userInputScanner);
-		noteMenu = new NoteMenuCLI(userInputScanner);
-		toDoMenu = new ToDoCLI(userInputScanner);
-		appointmentMenu = new AppointmentCLI();
-
+	public void showGuiMenu(){
+		ContactMenuGUI contactMenu = new ContactMenuGUI();
+		NoteMenuGUI noteMenu = new NoteMenuGUI();
+		ToDoGUI toDoMenu = new ToDoGUI();
+		AppointmentGUI appointmentMenu = new AppointmentGUI();
+		AlarmGUI alarmMenu = new AlarmGUI();
+		AppointmentImporterGUI appointmentImporterMenu = new AppointmentImporterGUI();
+		
+		
 		try {
 			while (true) {
-				System.out.println("##### DynOSor #####");
-				System.out.println("\nWhich Menu Would You Like To Enter:" +
-						"\n1 - Contacts" +
-						"\n2 - Notes" +
-						"\n3 - ToDo" +
-						"\n4 - Appointments" +
-						"\nEnter Selection: ");
-				int input = getInt(4);
-				switch (input) {
+				ArrayList<String> options = new ArrayList<>();
+				options.add("Contacts");
+				options.add("Notes");
+				options.add("TODOs");
+				options.add("Appointments");
+				options.add("Alarms");
+				options.add("Import Appointment File");
+
+				GuiButtonInput input = new GuiButtonInput("Main Menu", options);
+				int selection = options.indexOf(input.getInput());
+
+				switch (selection) {
+					case 0:
+						contactMenu.showGuiMenu();
+						break;
 					case 1:
-						contactMenu.showMainContactMenu();
+						noteMenu.showGuiMenu();
 						break;
 					case 2:
-						noteMenu.showMainNoteMenu();
+						toDoMenu.showGuiMenu();
 						break;
 					case 3:
-						toDoMenu.showMainToDoMenu();
+						appointmentMenu.showGuiMenu();
 						break;
 					case 4:
-						appointmentMenu.showMainAppointmentMenu();
+						alarmMenu.showGUI();
+						break;
+					case 5:
+						appointmentImporterMenu.showGUIMenu();
 						break;
 				}
 			}
 		} catch (QuitException e){
-			System.out.println("Exiting...");
+			System.exit(0);
 		}
 	}
-	
+
 	/**
 	 * Entry method for DynOSor. Instantiates a new DynOSor object
 	 * and calls the showMainMenu method.
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		DynOSor mainMenu = new DynOSor();
-		mainMenu.showMainMenu();
+		mainMenu.startProgram();
 	}
-	
-	/**
-	 * Gets input from the user via the command line.
-	 * 
-	 * @return The String entered by the user via the command line.
-	 */
 
-	private int getInt(int max) throws QuitException {
-		while (true) {
-			try {
-				String input = userInputScanner.nextLine();
-				if (input.equals("")) {
-					System.out.println("Please Enter Something: ");
-				} else if (input.toUpperCase().equals("QUIT")) {
-					throw new QuitException();
-				} else {
-					int id = Integer.parseInt(input);
-					if (id <= max && id > 0) {
-						return id;
-					} else {
-						System.err.println("Not A Valid Selection");
-					}
-				}
-			} catch (NumberFormatException e) {
-				System.err.println("Not Valid Number");
-			}
-		}
+	/**
+	 * Returns the logo
+	 * @return
+     */
+	public static Image getLogo(){
+		return image;
+	}
+
+	public void startProgram(){
+		PINGui.showGui();
+		showGuiMenu();
 	}
 }

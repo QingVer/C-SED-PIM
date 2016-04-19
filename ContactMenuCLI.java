@@ -44,6 +44,7 @@ public class ContactMenuCLI extends CLI {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void listContact(int id) {
 		try {
 			ArrayList contactInfo = contactList.get(id - 1).viewContact();
@@ -216,6 +217,7 @@ public class ContactMenuCLI extends CLI {
 		return contactList.get(id - 1).addField(fieldName, fieldContent);
 	}
 
+	@SuppressWarnings("unused")
 	private String addFieldCLI() {
 		try {
 			System.out.print("\nWhich Contact Would You Like To Edit (ID):");
