@@ -16,8 +16,10 @@ import java.util.ArrayList;
  */
 public class DynOSor{
 	private static Image image = null;
+	private Sounds soundLib;
+	private AlarmThread alarmThread;
 	public static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "DynOSor";
-
+	
 	/**
 	 * Constructor with no parameters which simply checks
 	 * to ensure that the applications directories exist,
@@ -29,10 +31,10 @@ public class DynOSor{
 		URL url = null;
 		try {
 			url = new URL("https://raw.githubusercontent.com/QLVermeire/C-SED-PIM/master/DynOSor.jpg");
-		} catch (MalformedURLException e){
-			//
-		}
+		} catch (MalformedURLException e){}
 		image = Toolkit.getDefaultToolkit().createImage(url);
+		soundLib = new Sounds();
+		alarmThread = new AlarmThread(this);
 	}
 
 	/**
@@ -140,5 +142,9 @@ public class DynOSor{
 	public void startProgram(){
 		PINGui.showGui();
 		showGuiMenu();
+	}
+	
+	public Sounds getSoundLib(){
+		return soundLib;
 	}
 }

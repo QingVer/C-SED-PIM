@@ -33,7 +33,6 @@ public class AlarmGUI {
 			System.err.println("No Alarms to Load.");
 		}
 		
-		
 		//Adds GUI fields
 		alarmStringFields = new ArrayList<String>();
 		alarmIntFields = new ArrayList<String>();
@@ -117,7 +116,6 @@ public class AlarmGUI {
 				ArrayList<String> alarmEnabledDetails = new ArrayList<>();
 	
 				for (int i = 0; i < alarmList.size(); i++) {
-					Alarm alarm = alarmList.get(i);
 					alarmTimes.add(alarmList.get(i).getAlarmTimeString());
 					alarmEnabledDetails.add(alarmList.get(i).getIsEnabledString());
 				}

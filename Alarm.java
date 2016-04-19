@@ -187,7 +187,7 @@ public class Alarm {
 	 * Updates the alarm file with the current alarm data.
 	 * @return whether or not the file was updated successfully.
 	 */
-	public boolean updateAlarmFile(){
+	public synchronized boolean updateAlarmFile(){
 		boolean wasSuccessful = false;
 		PrintWriter alarmWriter = null;
 
