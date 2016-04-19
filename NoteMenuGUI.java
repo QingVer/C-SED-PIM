@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class NoteMenuGUI {
 	private ArrayList<Note> notes = new ArrayList<>();

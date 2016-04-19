@@ -1,16 +1,15 @@
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ContactMenuGUI {
 	ArrayList<Contact> contactList = new ArrayList<>();
-	ArrayList<String> contactStringFields =  new ArrayList<String>(){{
+	@SuppressWarnings("serial")	ArrayList<String> contactStringFields =  new ArrayList<String>(){{
 		add("Name:");
 		add("Address:");
 		add("Email Address:");
 	}};
-	ArrayList<String> contactIntFields = new ArrayList<String>(){{
+	@SuppressWarnings("serial")	ArrayList<String> contactIntFields = new ArrayList<String>(){{
 		add("Phone Number: ");
 	}};
 

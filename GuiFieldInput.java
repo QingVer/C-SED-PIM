@@ -1,19 +1,16 @@
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 /**
  * Created by Georgew on 13/04/2016.
  */
+@SuppressWarnings("serial")
 public class GuiFieldInput extends JFrame implements ActionListener, ComponentListener {
-    //Bools
+    //Booleans
     boolean ready;
     boolean maxSizeReached;
     Thread thread;

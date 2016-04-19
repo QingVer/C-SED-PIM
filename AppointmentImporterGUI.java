@@ -5,7 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * Class providing a GUI for importing 
+ * Class providing a GUI for importing files as appointments in the DynOSor
+ * personal organiser application.
  * @author Joshua Evans
  * @version Sprint 3, Version 1.0
  * @release 19/04/2016
@@ -13,7 +14,10 @@ import javax.swing.JOptionPane;
  *
  */
 public class AppointmentImporterGUI {
-
+	
+	/**
+	 * Shows the GUI for importing appointments from a file, and handles actually importing them.
+	 */
 	public void showGUIMenu() {
 		try {
 				ArrayList<String> options = new ArrayList<>();

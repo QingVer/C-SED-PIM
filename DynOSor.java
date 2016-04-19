@@ -3,7 +3,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Entry class for the Dynamic Organiser and Sorter program.

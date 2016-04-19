@@ -4,17 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class AppointmentGUI {
     ArrayList<Appointment> appointments = new ArrayList<>();
-    ArrayList<String> stringFields =  new ArrayList<String>(){{
+    @SuppressWarnings("serial")	ArrayList<String> stringFields =  new ArrayList<String>(){{
         add("Title:");
         add("Description:");
         add("Location:");
         add("Start Date (dd/MM/yyyy HH:mm):");
     }};
-    ArrayList<String> intFields = new ArrayList<String>(){{
+    @SuppressWarnings("serial")	ArrayList<String> intFields = new ArrayList<String>(){{
         add("\0Duration (Hrs): ");
     }};
 
