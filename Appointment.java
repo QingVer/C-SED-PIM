@@ -255,9 +255,9 @@ public class Appointment {
 	}
 
 	/**
-	 * Returns the note's file.
+	 * Returns the appointment's file.
 	 *
-	 * @return The note's file.
+	 * @return The appointment's file.
 	 */
 	public File getFile(){
 		return appointmentFile;

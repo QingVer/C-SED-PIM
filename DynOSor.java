@@ -45,6 +45,7 @@ public class DynOSor{
 		File noteDir = new File(Note.fileDirectory);
 		File toDoDir = new File(ToDoItem.fileDirectory);
 		File appointmentDir = new File(Appointment.fileDirectory);
+		File alarmDir = new File(Alarm.fileDirectory);
 		
 		if(!rootDir.exists()){
 			rootDir.mkdir();
@@ -61,6 +62,9 @@ public class DynOSor{
 		if(!appointmentDir.exists()){
 			appointmentDir.mkdir();
 		}
+		if(!alarmDir.exists()){
+			alarmDir.mkdir();
+		}
 
 	}
 
@@ -73,7 +77,10 @@ public class DynOSor{
 		NoteMenuGUI noteMenu = new NoteMenuGUI();
 		ToDoGUI toDoMenu = new ToDoGUI();
 		AppointmentGUI appointmentMenu = new AppointmentGUI();
+		AlarmGUI alarmMenu = new AlarmGUI();
 		AppointmentImporterGUI appointmentImporterMenu = new AppointmentImporterGUI();
+		
+		
 		try {
 			while (true) {
 				ArrayList<String> options = new ArrayList<>();
@@ -81,6 +88,7 @@ public class DynOSor{
 				options.add("Notes");
 				options.add("TODOs");
 				options.add("Appointments");
+				options.add("Alarms");
 				options.add("Import Appointment File");
 
 				GuiButtonInput input = new GuiButtonInput("Main Menu", options);
@@ -100,7 +108,11 @@ public class DynOSor{
 						appointmentMenu.showGuiMenu();
 						break;
 					case 4:
-						appointmentImporterMenu.showGUIMenu();	
+						alarmMenu.showGUI();
+						break;
+					case 5:
+						appointmentImporterMenu.showGUIMenu();
+						break;
 				}
 			}
 		} catch (QuitException e){
