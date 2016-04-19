@@ -74,6 +74,7 @@ public class DynOSor{
 		NoteMenuGUI noteMenu = new NoteMenuGUI();
 		ToDoGUI toDoMenu = new ToDoGUI();
 		AppointmentGUI appointmentMenu = new AppointmentGUI();
+		AppointmentImporterGUI appointmentImporterMenu = new AppointmentImporterGUI();
 		try {
 			while (true) {
 				ArrayList<String> options = new ArrayList<>();
@@ -81,6 +82,7 @@ public class DynOSor{
 				options.add("Notes");
 				options.add("TODOs");
 				options.add("Appointments");
+				options.add("Import Appointment File");
 
 				GuiButtonInput input = new GuiButtonInput("Main Menu", options);
 				int selection = options.indexOf(input.getInput());
@@ -98,6 +100,8 @@ public class DynOSor{
 					case 3:
 						appointmentMenu.showGuiMenu();
 						break;
+					case 4:
+						appointmentImporterMenu.showGUIMenu();	
 				}
 			}
 		} catch (QuitException e){

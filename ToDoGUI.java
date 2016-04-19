@@ -119,7 +119,7 @@ public class ToDoGUI {
             content.add(toDo.getBodyText());
 
             GuiFieldInput input =
-                    new GuiFieldInput("Edit ToDo", labels, content, new ArrayList<>(), new ArrayList<>());
+                    new GuiFieldInput("Edit ToDo", labels, content);
             input.getInput();
             String title = input.getStringAnswers().get(0);
             String body = input.getStringAnswers().get(1);

@@ -24,7 +24,7 @@ public class NoteMenuGUI {
 	}
 
 	/**
-	 * Shows the main menu through a Button Gui
+	 * Shows the main menu through a Button GUI
 	 * @see GuiButtonInput
 	 */
 	public void showGuiMenu(){
@@ -122,7 +122,7 @@ public class NoteMenuGUI {
 			content.add(note.getBodyText());
 
 			GuiFieldInput input =
-					new GuiFieldInput("Edit Note", labels, content, new ArrayList<>(), new ArrayList<>());
+					new GuiFieldInput("Edit Note", labels, content);
 			input.getInput();
 			String title = input.getStringAnswers().get(0);
 			String body = input.getStringAnswers().get(1);
