@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Creates a Note menu GUI that can be called at any time.
+ * @author George Andrews
+ * @version 1.0, Sprint 3
+ * @see Note
+ */
 public class NoteMenuGUI {
 	private ArrayList<Note> notes = new ArrayList<>();
 

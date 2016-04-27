@@ -7,13 +7,13 @@ import java.util.ArrayList;
  * are in the correct date format.
  *
  * @author George Andrews
- * @version 1.0
+ * @version 1.0, Sprint 3
  */
-//TODO Fill in comment
 public class GuiDateInput extends GuiFieldInput {
     public GuiDateInput(String title, ArrayList<String> stringQuestions, ArrayList<String> intQuestions){
         super(title, stringQuestions, intQuestions);
     }
+
     public GuiDateInput(String title, ArrayList<String> stringQuestions, ArrayList<String> stringAnswers, ArrayList<String> intQuestions, ArrayList<String> intAnswers){
         super(title, stringQuestions, stringAnswers, intQuestions, intAnswers);
     }

@@ -1,89 +1,103 @@
+import java.time.Duration;
 
-public class TimerClock {
-	// start time
-	private long startTime;
-	// holds paused time
-	private long timeBuffer;
+/**
+ * Creates a timer that whilst running
+ * increments up once every second. Can be
+ * pause and reset back to 0.
+ * @author George Andrews, Joao Duarte
+ * @version 1.1
+ */
+public class TimerClock implements Runnable {
+	//Variables
+	private Thread thread;
+	private int time;
+	private boolean running;
 
-	/*
-	 * Constructor. sets global variables
+	/**
+	 * Constructor. sets global variables and
+	 * starts the thread that controls the 'ticks'
 	 */
 	public TimerClock() {
-		// timer is -1 (
-		timeBuffer = -1;
+		running = false;
+		time = 0;
+		thread = new Thread(this);
+		thread.start();
 	}
 
-	/*
-	 * starts or restarts watch
+	/**
+	 * Sets the time back to 0.
 	 */
-	public void startOrRestartWatch() {
-		startTime = System.currentTimeMillis();
-		timeBuffer = -1;
+	public void restartWatch() {
+		time = 0;
 	}
 
-	/*
-	 * @returns watch is not running (pauses watch)
+	/**
+	 * Stops the timer 'ticking'
 	 */
-	public boolean pauseWatch() {
-		timeBuffer = System.currentTimeMillis() - startTime;
-		return false;
+	public void pauseWatch() {
+		running = false;
 	}
 
-	/*
-	 * @returns watch is running (resumes watch)
+	/**
+	 * If paused sets the clock 'ticking' again.
 	 */
-	public boolean resumeWatch() {
-		startTime = System.currentTimeMillis();
-		return true;
+	public void resumeWatch() {
+		running = true;
 	}
 
-	/*
-	 * method was adapted from
-	 * http://introcs.cs.princeton.edu/java/stdlib/Stopwatch.java.html
-	 * 
-	 * @returns String, the time since the timer was started in sexagesimal
-	 */
-	public String timeRunning() {
-		long currentTime = System.currentTimeMillis();
+	/**
+	 * @return
+	 * Returns the time of the timer in a
+	 * digital clock format.
+     */
+	public String getTime(){
+		return secondsToString(time);
+	}
 
-		// if timer was paused
-		if (timeBuffer != -1) {
-			currentTime += timeBuffer;
+	/**
+	 * Converts a time in seconds to a digital
+	 * clock format (hh:mm:ss)
+	 * @param timeSec
+	 * The time to convert.
+	 * @return
+	 * The converted time in a string format
+     */
+	public String secondsToString(int timeSec){
+		Duration time = Duration.ofSeconds(timeSec);
+		String output = (int) time.toHours() + ":";
+		if(output.length() == 2){
+			output = "0" + output;
 		}
-
-		return secondsToString((currentTime - startTime));
-
+		time = time.minusHours((int) time.toHours());
+		String addition = (int) time.toMinutes() + ":";
+		if(addition.length() == 2){
+			addition = "0" + addition;
+		}
+		output += addition;
+		time = time.minusMinutes((int) time.toMinutes());
+		addition = (int) time.getSeconds() + "";
+		if(addition.length() == 1){
+			addition = "0" + addition;
+		}
+		output += addition;
+		return output;
 	}
 
-	/*
-	 * @returns String of converted seconds into a nice format of (eg) 00:01:23
+	/**
+	 * If running increments the timer
 	 */
-	public String secondsToString(long time) {
-		// convert ms to h
-		long hours = (time) / 1000 / 3600;
-		String hoursString = formatTime(hours);
+	@Override
+	public void run() {
+		try {
+			while (true){
+				if(running){
+					time++;
+				}
+				Thread.sleep(1000);
+			}
 
-		// converts ms to min, taking h into account
-		long minutes = ((((time) / 1000) - hours * 3600)) / 60;
-		String minutesString = formatTime(minutes);
-
-		// converts ms to s, taking min and h into account
-		long seconds = ((((time - startTime) / 1000) - hours * 3600) - minutes * 60);
-		String secondsString = formatTime(seconds);
-
-		return hoursString + ":" + minutesString + ":" + secondsString;
-
-	}
-
-	/*
-	 * @return String of either 0x or x (x being a long)
-	 */
-	public String formatTime(long l) {
-		// if l is one digit
-		if ((l + "").length() == 1) {
-			return "0" + l;
-		} else {
-			return l + "";
+		} catch (InterruptedException e){
+			//
 		}
 	}
 }

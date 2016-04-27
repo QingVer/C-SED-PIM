@@ -6,31 +6,34 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
- * Created by Georgew on 13/04/2016.
+ * Creates a GUI where a user can enter data
+ * to given fields which are pasted to the interface
+ * on creation.
+ * @author George Andrews
+ * @version 1.0
  */
-@SuppressWarnings("serial")
+
 public class GuiFieldInput extends JFrame implements ActionListener, ComponentListener {
     //Booleans
-    boolean ready;
-    boolean maxSizeReached;
-    Thread thread;
+    private boolean ready;
+    private Thread thread;
     //Colours
     Color correct = new Color(255, 255, 255);
     Color wrong = new Color(255, 214, 207);
     //variables
-    JPanel center;
-    JScrollPane centerScroll;
-    ArrayList<JTextComponent> stringFields = new ArrayList<>();
-    ArrayList<String> stringAnswers = new ArrayList<>();
-    ArrayList<JTextField> intFields = new ArrayList<>();
-    ArrayList<String> intAnswers = new ArrayList<>();
-    ArrayList<String> stringQuestions;
-    ArrayList<String> intQuestions;
-
-    JPanel north;
-    JPanel south;
-    JButton doneButton;
-    JButton cancelButton;
+    private JPanel center;
+    private JScrollPane centerScroll;
+    protected ArrayList<JTextComponent> stringFields = new ArrayList<>();
+    protected ArrayList<String> stringAnswers = new ArrayList<>();
+    private ArrayList<JTextField> intFields = new ArrayList<>();
+    private ArrayList<String> intAnswers = new ArrayList<>();
+    protected ArrayList<String> stringQuestions;
+    private ArrayList<String> intQuestions;
+    private JLabel titleLabel;
+    private JPanel north;
+    private JPanel south;
+    private JButton doneButton;
+    private JButton cancelButton;
 
     /**
      * Constructs a basic GUI with field inputs. Makes a field for each element in
@@ -51,10 +54,9 @@ public class GuiFieldInput extends JFrame implements ActionListener, ComponentLi
         this.stringQuestions = stringQuestions;
         this.intQuestions = intQuestions;
         thread = Thread.currentThread();
-        maxSizeReached = false;
         //Top
         north = new JPanel(new FlowLayout());
-        JLabel titleLabel = new JLabel(this.getTitle());
+        titleLabel = new JLabel(this.getTitle());
         titleLabel.setFont(new Font("Lucida", Font.BOLD, 24));
         Image image = DynOSor.getLogo();
         titleLabel.setIcon(new ImageIcon(image.getScaledInstance(75,75,Image.SCALE_DEFAULT)));
@@ -176,7 +178,7 @@ public class GuiFieldInput extends JFrame implements ActionListener, ComponentLi
      * @return
      * true or false depending on if the content is correct.
      */
-    protected boolean getIntInput(int id) {
+    private boolean getIntInput(int id) {
         String input = intFields.get(id).getText();
         if (intQuestions.get(id).contains("\0")) {
             try {
@@ -252,6 +254,15 @@ public class GuiFieldInput extends JFrame implements ActionListener, ComponentLi
         return intAnswers;
     }
 
+    /**
+     * Changes the label text at the top of the interface.
+     * @param title
+     * What to set the label text to.
+     */
+    public void setTitle(String title){
+        titleLabel.setText(title);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().startsWith("int")) {
@@ -286,12 +297,10 @@ public class GuiFieldInput extends JFrame implements ActionListener, ComponentLi
 
     @Override
     public void componentResized(ComponentEvent e) {
+        if(centerScroll.getHeight() > 800){
+            centerScroll.setPreferredSize(new Dimension(300,800));
+        }
         pack();
-            /*if((centerScroll.getHeight() > 700 || centerScroll.getWidth() > 700)&& !maxSizeReached){
-                centerScroll.setPreferredSize(new Dimension(700,700));
-                centerScroll.repaint();
-                maxSizeReached = true;
-            }*/
     }
 
     @Override

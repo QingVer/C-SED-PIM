@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Creates a Contact GUI that can be called at any time.
+ * @author George Andrews
+ * @version 1.0, Sprint 3
+ * @see Contact
+ */
 public class ContactMenuGUI {
 	ArrayList<Contact> contactList = new ArrayList<>();
 	@SuppressWarnings("serial")	ArrayList<String> contactStringFields =  new ArrayList<String>(){{

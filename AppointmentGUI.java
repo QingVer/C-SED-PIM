@@ -5,6 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Creates a Appointment Gui that can be called at any time.
+ * @author George Andrews
+ * @version 1.0, Sprint 3
+ * @see Appointment
+ */
 public class AppointmentGUI {
     ArrayList<Appointment> appointments = new ArrayList<>();
     @SuppressWarnings("serial")	ArrayList<String> stringFields =  new ArrayList<String>(){{

@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Creates a ToDoGui that can be called at any time.
+ * @author George Andrews
+ * @version 1.0, Sprint 3
+ * @see ToDoItem
+ */
 public class ToDoGUI {
     private ArrayList<ToDoItem> toDos = new ArrayList<>();
 

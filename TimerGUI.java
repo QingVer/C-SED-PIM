@@ -1,116 +1,75 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.TimerTask;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
+/**
+ * This class displays a timer that ticks up to the
+ * user, and allows them to pause/start and reset the timer
+ * @author George Andrews
+ * @version 1.0
+ */
 public class TimerGUI {
-	// timerclock class
-	private TimerClock clock;
-	// timer label
-	private JLabel timerLabel;
-	// is stopwatch running
-	private boolean running;
+    //Variables
+    private TimerClock timerClock;
+    private GuiButtonInput input;
+    private java.util.Timer updateTimer;
 
-	/*
-	 * Constructor. sets global variables
-	 */
-	public TimerGUI() {
-		running = false;
-		clock = new TimerClock();
-	}
+    /**
+     * Sets up the timerClock variable.
+     */
+    public TimerGUI() {
+        timerClock = new TimerClock();
+    }
 
-	/*
-	 * creates and show GUI
-	 */
-	public void createAndShowGUI() {
-		JFrame frame = new JFrame("Stopwatch");
-		frame.setPreferredSize(new Dimension(400, 200));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    /**
+     * Displays a Gui where the user can
+     * pause, start and reset the timer.
+     */
+    public void showGuiMenu() {
+        ArrayList<String> buttons = new ArrayList<>();
+        buttons.add("Start Timer");
+        buttons.add("Pause Timer");
+        buttons.add("Reset Timer");
+        input = new GuiButtonInput(timerClock.getTime(), buttons);
+        input.setDispose(false);
+        update();
+            try {
+                while (true) {
+                    input.resetButtonPressed();
+                    int selection = buttons.indexOf(input.getInput());
+                    switch (selection) {
+                        case 0:
+                            timerClock.resumeWatch();
+                            break;
+                        case 1:
+                            timerClock.pauseWatch();
+                            break;
+                        case 2:
+                            timerClock.restartWatch();
+                            break;
+                    }
+                }
+            } catch (QuitException e) {
+                if(updateTimer != null) {
+                    updateTimer.cancel();
+                }
+                input.dispose();
+            }
+        }
 
-		// label that shows timer
-		timerLabel = new JLabel("00:00:00");
-		timerLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		timerLabel.setFont(new Font("Consolas", Font.CENTER_BASELINE, 24));
-
-		// panel to hold buttons
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
-
-		// button for starting or restarting stopwatch
-		JButton startOrRestart = new JButton("Start/Restart Stopwatch");
-		startOrRestart.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				clock.startOrRestartWatch();
-				running = true;
-				// updates timer
-				update();
-			}
-		});
-		JButton pauseButton = new JButton("Pause Stopwatch");
-		pauseButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// if stopwatch is not running
-				if (running == false)
-					JOptionPane.showMessageDialog(frame, "Stopwatch is not running");
-				else
-					running = clock.pauseWatch();
-			}
-		});
-
-		// button used to resume stopwatch
-		JButton resumeButton = new JButton("Resume Stopwatch");
-		resumeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// if timer is not paused
-				if (running == true) {
-					JOptionPane.showMessageDialog(frame, "Stopwatch is not paused");
-				} else
-					running = clock.resumeWatch();
-			}
-		});
-		// adds buttons to panel
-		buttonPanel.add(startOrRestart);
-		buttonPanel.add(pauseButton);
-		buttonPanel.add(resumeButton);
-
-		// adds components and panels to frame
-		frame.getContentPane().add(timerLabel);
-		frame.getContentPane().add(Box.createRigidArea(new Dimension(0, 30)));
-		frame.getContentPane().add(buttonPanel);
-
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	/*
-	 * based off http://stackoverflow.com/questions/18926839/timer-stopwatch-gui
-	 * Updates label via threading
-	 */
-	private void update() {
-		java.util.Timer updateTimer = new java.util.Timer();
-		updateTimer.scheduleAtFixedRate(new TimerTask() {
-			// new thread
-			@Override
-			public void run() {
-				// only start when running = true (when start button is pressed)
-				if (running)
-					timerLabel.setText(clock.timeRunning());
-			}
-		}, 0, 100);
-	}
+    /**
+     * Updates the title label text to the
+     * time on the timer.
+     */
+    private void update() {
+        updateTimer = new java.util.Timer();
+        updateTimer.scheduleAtFixedRate(new TimerTask() {
+            // new thread
+            @Override
+            public void run() {
+                // only start when running = true (when start button is pressed)
+                    input.setTitle(timerClock.getTime());
+            }
+        }, 0, 100);
+    }
 }
+

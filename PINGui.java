@@ -14,6 +14,13 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
 
+/**
+ * Creates a Gui where the user must
+ * input the correct pin to pass.
+ * @author Joao Duarte
+ * @version 1.0, sprint 3
+ * @see PinCode
+ */
 public class PINGui {
     private static boolean ready;
     public static void showGui(){

@@ -18,6 +18,11 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;;
 
+/**
+ * Creates a pincode
+ * @author Joao Duarte
+ * @version 1.0, sprint 3
+ */
 public class PinCode {
     private byte encryptedPin[];
     private SecretKey key;

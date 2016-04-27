@@ -1,4 +1,3 @@
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,22 +6,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Georgew on 13/04/2016.
+ * Creates a basic GUI with buttons with given
+ * options. The user can select a button which is
+ * then returned.
+ * Use to get single selections from users.
+ * @author George Andrews
+ * @version 1.0
  */
 public class GuiButtonInput extends JFrame implements ActionListener, ComponentListener{
     //Variables
-    JPanel north;
-    JScrollPane centerScroll;
-    JPanel center;
-    JPanel south;
-    String buttonPressed;
-    Thread thread;
-    boolean maxSizeReached;
+    private JPanel north;
+    private JScrollPane centerScroll;
+    private JPanel center;
+    private JPanel south;
+    private String buttonPressed;
+    private Thread thread;
+    private JLabel titleLabel;
+    private boolean dispose;
 
     /**
      * Builds the gui with a button for each String in
@@ -34,14 +37,14 @@ public class GuiButtonInput extends JFrame implements ActionListener, ComponentL
      */
     public GuiButtonInput(String title, ArrayList<String> options){
         super(title);
+        dispose = true;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        maxSizeReached = false;
         buttonPressed = "";
         thread = Thread.currentThread();
 
         //Setup north
         north = new JPanel();
-        JLabel titleLabel = new JLabel();
+        titleLabel = new JLabel();
         Image image = DynOSor.getLogo();
         titleLabel.setIcon(new ImageIcon(image.getScaledInstance(75,75,Image.SCALE_DEFAULT)));
         titleLabel.setFont(new Font("Lucida",Font.BOLD,24));
@@ -139,6 +142,35 @@ public class GuiButtonInput extends JFrame implements ActionListener, ComponentL
         return buttonPressed;
     }
 
+    /**
+     * Changes the label text at the top of the interface.
+     * @param title
+     * What to set the label text to.
+     */
+    public void setTitle(String title){
+        titleLabel.setText(title);
+        pack();
+        pack();
+    }
+
+    /**
+     * Changes if the frame is disposed after a selection
+     * is made.
+     * @param dispose
+     * True - frame gets disposed.
+     */
+    public void setDispose(boolean dispose){
+        this.dispose = dispose;
+    }
+
+    /**
+     * Sets the button pressed to nothing so
+     * another selection can be made.
+     */
+    public void resetButtonPressed(){
+        buttonPressed = "";
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Cancel")){
@@ -146,11 +178,16 @@ public class GuiButtonInput extends JFrame implements ActionListener, ComponentL
         } else {
             buttonPressed = e.getActionCommand();
         }
-        dispose();
+        if(dispose) {
+            dispose();
+        }
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
+        if(centerScroll.getHeight() > 800){
+            centerScroll.setPreferredSize(new Dimension(300,800));
+        }
         pack();
     }
 

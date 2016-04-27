@@ -1,5 +1,8 @@
 /**
- * Created by Georgew on 06/03/2016.
+ * An exception to be thrown the the user is quiting
+ * the current menu.
+ * @author George Andrews
+ * @version 1.0, Sprint 1
  */
 @SuppressWarnings("serial")
 public class QuitException extends Exception {

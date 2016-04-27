@@ -12,11 +12,20 @@ import java.util.ArrayList;
  * This is for the initial GUI version of DynOSor.
  * 
  * @version Sprint 1, V1.0
+ * @author George Andrews, Joshua Evans
  */
 public class DynOSor {
 	private static Image image = null;
 	private Sounds soundLib;
 	private AlarmThread alarmThread;
+	private ContactMenuGUI contactMenu;
+	private NoteMenuGUI noteMenu;
+	private ToDoGUI toDoMenu;
+	private AppointmentGUI appointmentMenu;
+	private AlarmGUI alarmMenu;
+	private AppointmentImporterGUI appointmentImporterMenu;
+	private CountdownGUI countdownGUI;
+	private TimerGUI timerGUI;
 	public static String rootDirectory = System.getProperty("user.home") + System.getProperty("file.separator")
 			+ "DynOSor";
 
@@ -35,6 +44,14 @@ public class DynOSor {
 		image = Toolkit.getDefaultToolkit().createImage(url);
 		soundLib = new Sounds();
 		alarmThread = new AlarmThread(this);
+		contactMenu = new ContactMenuGUI();
+		noteMenu = new NoteMenuGUI();
+		toDoMenu = new ToDoGUI();
+		appointmentMenu = new AppointmentGUI();
+		alarmMenu = new AlarmGUI();
+		appointmentImporterMenu = new AppointmentImporterGUI();
+		countdownGUI = new CountdownGUI(this);
+		timerGUI = new TimerGUI();
 	}
 
 	/**
@@ -71,19 +88,11 @@ public class DynOSor {
 	}
 
 	/**
-	 * Shows a set of menu options to the user and continually monitors their
-	 * command line input. Once this method exits, the program closes.
+	 * Shows a set of menu options and opens the selected menu
+	 * using a GUI
+	 * @see GuiButtonInput
 	 */
 	public void showGuiMenu() {
-		ContactMenuGUI contactMenu = new ContactMenuGUI();
-		NoteMenuGUI noteMenu = new NoteMenuGUI();
-		ToDoGUI toDoMenu = new ToDoGUI();
-		AppointmentGUI appointmentMenu = new AppointmentGUI();
-		AlarmGUI alarmMenu = new AlarmGUI();
-		AppointmentImporterGUI appointmentImporterMenu = new AppointmentImporterGUI();
-		CountdownGUI countdownGUI = new CountdownGUI();
-		TimerGUI timerGUI = new TimerGUI();
-
 		try {
 			while (true) {
 				ArrayList<String> options = new ArrayList<>();
@@ -91,10 +100,11 @@ public class DynOSor {
 				options.add("Notes");
 				options.add("TODOs");
 				options.add("Appointments");
-				options.add("Alarms");
 				options.add("Import Appointment File");
+				options.add("Alarms");
 				options.add("Countdown Timer");
 				options.add("Stopwatch");
+				options.add("Reload DynOSor");
 				GuiButtonInput input = new GuiButtonInput("Main Menu", options);
 				int selection = options.indexOf(input.getInput());
 
@@ -111,18 +121,22 @@ public class DynOSor {
 				case 3:
 					appointmentMenu.showGuiMenu();
 					break;
-				case 4:
+				case 5:
 					alarmMenu.showGUI();
 					break;
-				case 5:
+				case 4:
 					appointmentImporterMenu.showGUIMenu();
+					refresh();
 					break;
 				case 6:
-					countdownGUI.chooseTimeGUI();
+					countdownGUI.showGuiMenu();
 					break;
 				case 7:
-					timerGUI.createAndShowGUI();
+					timerGUI.showGuiMenu();
 					break;
+					case 8:
+						refresh();
+						break;
 				}
 			}
 		} catch (QuitException e) {
@@ -148,11 +162,32 @@ public class DynOSor {
 		return image;
 	}
 
+	/**
+	 * Validates the user should be able to start
+	 * the program by asking for a pincode
+	 * @see PINGui
+	 */
 	public void startProgram() {
 		PINGui.showGui();
 		showGuiMenu();
 	}
 
+	/**
+	 * Reloads all the menus so any new
+	 * files are imported into the program
+	 */
+	public void refresh(){
+		contactMenu = new ContactMenuGUI();
+		noteMenu = new NoteMenuGUI();
+		toDoMenu = new ToDoGUI();
+		appointmentMenu = new AppointmentGUI();
+		alarmMenu = new AlarmGUI();
+	}
+
+	/**
+	 * @return
+	 * soundLib
+     */
 	public Sounds getSoundLib() {
 		return soundLib;
 	}
